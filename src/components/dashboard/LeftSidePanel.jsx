@@ -26,9 +26,9 @@ function LeftSidePanel() {
         { name: "Clients", icon: MdOutlinePerson, path: "/clients" },
         { name: "Materials", icon: GiMetalBar, path: "/materials" },
         { name: "Invoices", icon: LiaFileInvoiceDollarSolid, path: "/invoices" },
-        { name: "Attendance", icon: IoListSharp, path: "/invoices" },
-        { name: "Employees", icon: GrUserWorker, path: "/invoices" },
-        { name: "Budget", icon: GiExpense, path: "/invoices" },
+        { name: "Attendance", icon: IoListSharp, path: "/attendance" },
+        { name: "Employees", icon: GrUserWorker, path: "/employee" },
+        { name: "Budget", icon: GiExpense, path: "/budget" },
     ];
 
     const { remove, user } = useAuth()

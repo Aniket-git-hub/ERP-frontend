@@ -56,7 +56,7 @@ function HomePage() {
                 ))}
             </Flex>
             <Text fontSize={'xs'} fontWeight={'bold'} color={'gray.600'} textTransform={'uppercase'}>
-                Overall 2024
+                Overall {new Date().getFullYear().toString()}
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {currentYearCard.map((card, index) => (

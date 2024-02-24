@@ -70,15 +70,15 @@ function ViewInvoices() {
                     <Thead >
                         <Tr>
                             <Th whiteSpace="normal" p={3}>Sr.No</Th>
-                            <Th whiteSpace="normal" p={3}>Invoice No</Th>
+                            <Th whiteSpace="normal" p={3}>#</Th>
                             <Th p={3}>Date</Th>
                             <Th p={3}>Invoice To</Th>
-                            <Th p={3} isNumeric>Total Qty</Th>
+                            <Th p={3} isNumeric> Qty</Th>
                             <Th p={3} isNumeric>Amount</Th>
                             <Th p={3} isNumeric>CGST - %</Th>
                             <Th p={3} isNumeric>IGST - %</Th>
                             <Th p={3} isNumeric>SGST - %</Th>
-                            <Th p={3} isNumeric>Total Amount</Th>
+                            <Th p={3} isNumeric>Total</Th>
                             <Th whiteSpace="normal" p={3}>Notes</Th>
                             <Th p={3}>Jobs</Th>
                             <Th p={3}>Action</Th>
@@ -91,7 +91,7 @@ function ViewInvoices() {
                                     <Td py={0} px={3} >{i + 1}</Td>
                                     <Td py={0} px={3} >{invoice.invoiceNumber}</Td>
                                     <Td py={0} px={3} >{formatDate(invoice.invoiceDate)}</Td>
-                                    <Td py={0} px={3} >{invoice?.Client.name}</Td>
+                                    <Td py={0} px={3} >{invoice?.Client?.name}</Td>
                                     <Td py={0} px={3} isNumeric >{invoice.totalQuantity}</Td>
                                     <Td py={0} px={3} isNumeric >{invoice.totalAmountBeforeTax}</Td>
                                     <Td py={0} px={3} isNumeric >{invoice.cGstAmount + "-" + invoice.cGstPercentage + "%"}</Td>
