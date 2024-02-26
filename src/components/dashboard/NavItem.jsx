@@ -15,7 +15,7 @@ function NavItem({ navSize, icon, path, title, active }) {
                     as={NavLink}
                     to={path}
                     backgroundColor={active && 'purple.600'}
-                    p={3}
+                    p={2}
                     borderRadius={8}
                     _hover={{ textDecor: 'none', backgroundColor: !active && 'purple.200' }}
                     w={navSize == 'large' && '100%'}
