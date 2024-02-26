@@ -81,3 +81,8 @@ export const getDashboardData = async () => handleRequest('/dashboard', {}, 'GET
 //Aggregate method 
 export const getAggregateJobData = async (type, year, month) => handleRequest(`/job/aggregate?type=${type}&month=${month}&year=${year}`, {}, 'GET')
 export const getAggregateInvoiceData = async (type, year, month) => handleRequest(`/invoice/aggregate?type=${type}&month=${month}&year=${year}`, {}, 'GET')
+
+
+// employee methods 
+export const addEmployee = async (data) => handleRequest(`/employee`, data, 'POST')
+export const getEmployees = async () => handleRequest(`/employee`, {}, 'GET')

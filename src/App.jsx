@@ -4,6 +4,7 @@ import {
   getAggregateInvoiceData,
   getAggregateJobData,
   getClients,
+  getEmployees,
   getInvoices,
   getJobs,
   getMaterials
@@ -41,6 +42,7 @@ function App() {
     setPreviousMonthInvoiceAggregate,
     setCurrentYearJobAggregate,
     setCurrentYearInvoiceAggregate,
+    setEmployees,
   } = useData();
 
   useEffect(() => {
@@ -65,6 +67,7 @@ function App() {
             previousMonthInvoiceAggregate,
             currentYearJobAggregate,
             currentYearInvoiceAggregate,
+            employees
           ] = await Promise.all([
             getMaterials(),
             getClients(),
@@ -76,6 +79,7 @@ function App() {
             getAggregateInvoiceData('monthly', previousYear.toString(), previousMonth.toString()),
             getAggregateJobData('yearly', currentYear.toString()),
             getAggregateInvoiceData('yearly', currentYear.toString()),
+            getEmployees()
           ]);
 
           const { data: { materials } } = materialsResponse;
@@ -93,6 +97,7 @@ function App() {
           setPreviousMonthInvoiceAggregate(previousMonthInvoiceAggregate.data)
           setCurrentYearJobAggregate(currentYearJobAggregate.data)
           setCurrentYearInvoiceAggregate(currentYearInvoiceAggregate.data);
+          setEmployees(employees.data.employees)
         }
       } catch (error) {
         console.log(error);

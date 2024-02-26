@@ -1,5 +1,5 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Button, Center, Container, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Modal, ModalBody, ModalContent, ModalOverlay, VStack, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Modal, ModalBody, ModalContent, ModalOverlay, VStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { deleteMaterial, updateMaterial } from "../../../api/data";
 import { useData } from "../../../hooks/useData";
@@ -9,7 +9,7 @@ import CustomAlertDialog from "../../utils/AlertDialog";
 import DataTable from "../../utils/DataTable";
 
 function ViewEmployees() {
-    const { materials } = useData()
+    const { materials, employees } = useData()
     const toast = useToast()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -18,6 +18,17 @@ function ViewEmployees() {
         { label: "Material Name", name: "name" },
         { label: "Density", name: "density" },
         { label: "Hardness", name: "hardness" },
+    ]
+    const employeeColumns = [
+        { label: "First Name", name: "firstName" },
+        { label: "Last Name", name: "lastName" },
+        { label: "Email", name: "email" },
+        { label: "Mobile", name: "mobileNumber" },
+        { label: "Address", name: "address" },
+        { label: "Salary", name: "salary", isNumeric: true },
+        { label: "Designation", name: "designation" },
+        { label: "Department", name: "department" },
+        { label: "Date Of Joining", name: "dateOfJoining", isDate: true, },
     ]
 
     const [selectedItem, setSelectedItem] = useState(null)
@@ -80,7 +91,7 @@ function ViewEmployees() {
 
     return (
         <>
-            <Container p={4} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'} borderRadius={'15px'}>
+            <Box p={4} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'} borderRadius={'15px'}>
                 <DataTable
                     data={materials}
                     columns={columns}
@@ -89,7 +100,13 @@ function ViewEmployees() {
                     actionProperty={"id"}
                     onActionButtonClick={handleActionClick}
                 />
-            </Container>
+
+                <DataTable
+                    data={employees}
+                    columns={employeeColumns}
+                />
+
+            </Box>
             {
                 selectedItem &&
                 <Modal

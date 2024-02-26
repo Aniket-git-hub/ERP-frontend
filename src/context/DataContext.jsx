@@ -17,7 +17,7 @@ export const DataProvider = ({ children }) => {
     const [previousMonthInvoiceAggregate, setPreviousMonthInvoiceAggregate] = useState({})
     const [currentYearJobAggregate, setCurrentYearJobAggregate] = useState({})
     const [currentYearInvoiceAggregate, setCurrentYearInvoiceAggregate] = useState({})
-
+    const [employees, setEmployees] = useState([])
 
     useEffect(() => {
         if (clients && clients.length > 0) {
@@ -45,6 +45,8 @@ export const DataProvider = ({ children }) => {
                 previousMonthInvoiceAggregate,
                 currentYearJobAggregate,
                 currentYearInvoiceAggregate,
+                employees,
+                setEmployees,
                 setCurrentYearInvoiceAggregate,
                 setCurrentYearJobAggregate,
                 setPreviousMonthJobAggregate,
