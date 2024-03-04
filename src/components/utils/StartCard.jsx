@@ -19,9 +19,9 @@ function StatCard({ title, data, icon }) {
             <CardBody>
                 <Flex alignItems={"center"}>
                     <Stat mr={4}>
-                        <StatLabel color={'darkgray'}>{title}</StatLabel>
+                        <StatLabel color={'gray.500'}>{title}</StatLabel>
                         <Flex w={'full'} justifyContent={'space-between'} alignItems={'baseline'}>
-                            <StatNumber >{data}</StatNumber>
+                            <StatNumber fontSize={'1.8rem'} >{data}</StatNumber>
                         </Flex>
                     </Stat>
                     <IconButton py={4} icon={icon} fontSize={'1.5rem'} _disabled={{}} isDisabled />

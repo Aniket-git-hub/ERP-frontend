@@ -1,11 +1,13 @@
-import CreateInvoice from "../../components/dashboard/invoices/createInvoice";
-import ViewInvoices from "../../components/dashboard/invoices/viewInvoices";
+import BudgetOverview from "../../components/dashboard/budget/BudgetOverview";
 import TabsComponent from "../../components/utils/TabsComponent";
+
 
 function BudgetPage() {
     const tabs = [
-        { title: "View Invoices", component: <ViewInvoices /> },
-        { title: "Create Invoices", component: <CreateInvoice /> },
+        { title: "Overview", component: <BudgetOverview /> },
+        { title: "Expenses", component: <BudgetOverview /> },
+        { title: "Budgets", component: <BudgetOverview /> },
+        { title: "Transactions", component: <BudgetOverview /> },
     ];
     return <TabsComponent tabs={tabs} />
 }

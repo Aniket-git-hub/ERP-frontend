@@ -18,6 +18,10 @@ export const DataProvider = ({ children }) => {
     const [currentYearJobAggregate, setCurrentYearJobAggregate] = useState({})
     const [currentYearInvoiceAggregate, setCurrentYearInvoiceAggregate] = useState({})
     const [employees, setEmployees] = useState([])
+    const [expenseCategories, setExpenseCategories] = useState([])
+    const [expenses, setExpenses] = useState([])
+    const [budgets, setBudgets] = useState([])
+    const [transactions, setTransactions] = useState([])
 
     useEffect(() => {
         if (clients && clients.length > 0) {
@@ -31,34 +35,42 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider
             value={{
-                clients,
-                materials,
-                jobs,
-                invoices,
-                invoiceJob,
                 clientOptions,
                 materialOptions,
+                materials,
+                setMaterials,
+                clients,
+                setClients,
+                jobs,
+                setJobs,
+                invoices,
+                setInvoices,
+                invoiceJob,
+                setInvoiceJobs,
                 dashboardData,
+                setDashboardData,
                 currentMonthInvoiceAggregate,
+                setCurrentMonthInvoiceAggregate,
                 currentMonthJobAggregate,
+                setCurrentMonthJobAggregate,
                 previousMonthJobAggregate,
+                setPreviousMonthInvoiceAggregate,
                 previousMonthInvoiceAggregate,
+                setPreviousMonthJobAggregate,
                 currentYearJobAggregate,
+                setCurrentYearJobAggregate,
                 currentYearInvoiceAggregate,
+                setCurrentYearInvoiceAggregate,
                 employees,
                 setEmployees,
-                setCurrentYearInvoiceAggregate,
-                setCurrentYearJobAggregate,
-                setPreviousMonthJobAggregate,
-                setPreviousMonthInvoiceAggregate,
-                setCurrentMonthJobAggregate,
-                setCurrentMonthInvoiceAggregate,
-                setDashboardData,
-                setMaterials,
-                setClients,
-                setJobs,
-                setInvoices,
-                setInvoiceJobs
+                expenseCategories,
+                setExpenseCategories,
+                expenses,
+                setExpenses,
+                budgets,
+                setBudgets,
+                transactions,
+                setTransactions,
             }}
         >
             {children}

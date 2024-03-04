@@ -5,6 +5,20 @@ export function formatDate(date) {
     return `${year}-${month}-${day}`;
 }
 
+export function currentDate() {
+    return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: "numeric" }).format(new Date())
+}
+
+export function formatCurrency(amount, locale = 'en-IN', showCurrencySymbol = true, currency = 'INR') {
+    const options = {
+        style: showCurrencySymbol ? 'currency' : 'decimal',
+        currency,
+        currencyDisplay: showCurrencySymbol ? 'symbol' : 'code',
+    };
+
+    return new Intl.NumberFormat(locale, options).format(amount);
+}
+
 export function getMonthRange(dateString) {
     const date = new Date(dateString);
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
