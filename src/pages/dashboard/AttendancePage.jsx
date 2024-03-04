@@ -1,11 +1,10 @@
-import AddAttendance from "../../components/dashboard/attendance/AddAttendance";
-import ViewInvoices from "../../components/dashboard/invoices/viewInvoices";
+import AttendanceOverview from "../../components/dashboard/attendance/attendanceOverview";
 import TabsComponent from "../../components/utils/TabsComponent";
 
 function AttendancePage() {
     const tabs = [
-        { title: "View Invoices", component: <ViewInvoices /> },
-        { title: "Create Invoices", component: <AddAttendance /> },
+        { title: "Overview", component: <AttendanceOverview /> },
+        { title: "View Attendance", component: <AttendanceOverview /> },
     ];
     return <TabsComponent tabs={tabs} />
 }

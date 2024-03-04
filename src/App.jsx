@@ -5,6 +5,8 @@ import {
   getAggregateJobData,
   getClients,
   getEmployees,
+  getExpenseCategories,
+  getExpenses,
   getInvoices,
   getJobs,
   getMaterials
@@ -21,6 +23,7 @@ import ClientsPage from './pages/dashboard/ClientsPage';
 import EmployeePage from './pages/dashboard/EmployeePage';
 import FeedbackPage from './pages/dashboard/FeedbackPage';
 import HomePage from './pages/dashboard/HomePage';
+import IncomePage from './pages/dashboard/IncomePage';
 import InvoicePage from './pages/dashboard/InvoicePage';
 import JobsPage from './pages/dashboard/JobsPage';
 import MaterialsPage from './pages/dashboard/MaterialsPage';
@@ -29,9 +32,8 @@ import SettingsPage from './pages/dashboard/SettingsPage';
 function App() {
   const { user, setUser, isAuthenticated, verifyOTP } = useAuth();
   const {
-    clients,
-    materials,
-    invoices,
+    setExpenseCategories,
+    setExpenses,
     setInvoices,
     setJobs,
     setClients,
@@ -67,7 +69,9 @@ function App() {
             previousMonthInvoiceAggregate,
             currentYearJobAggregate,
             currentYearInvoiceAggregate,
-            employees
+            employees,
+            expenses,
+            expenseCategories,
           ] = await Promise.all([
             getMaterials(),
             getClients(),
@@ -79,7 +83,9 @@ function App() {
             getAggregateInvoiceData('monthly', previousYear.toString(), previousMonth.toString()),
             getAggregateJobData('yearly', currentYear.toString()),
             getAggregateInvoiceData('yearly', currentYear.toString()),
-            getEmployees()
+            getEmployees(),
+            getExpenses(),
+            getExpenseCategories()
           ]);
 
           const { data: { materials } } = materialsResponse;
@@ -98,6 +104,8 @@ function App() {
           setCurrentYearJobAggregate(currentYearJobAggregate.data)
           setCurrentYearInvoiceAggregate(currentYearInvoiceAggregate.data);
           setEmployees(employees.data.employees)
+          setExpenseCategories(expenseCategories.data.expenseCategories)
+          setExpenses(expenses.data.expenses)
         }
       } catch (error) {
         console.log(error);
@@ -128,6 +136,7 @@ function App() {
         <Route path="attendance" element={<AttendancePage />} />
         <Route path="employee" element={<EmployeePage />} />
         <Route path="budget" element={<BudgetPage />} />
+        <Route path="income" element={<IncomePage />} />
         <Route path="about-us" element={<AboutusPage />} />
         <Route path="feedback" element={<FeedbackPage />} />
       </Route>

@@ -32,6 +32,7 @@ export const DataProvider = ({ children }) => {
         }
     }, [clients, materials])
 
+
     return (
         <DataContext.Provider
             value={{

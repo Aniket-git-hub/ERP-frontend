@@ -21,10 +21,12 @@ import {
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 import { FaRupeeSign } from "react-icons/fa";
+import { useData } from "../../../hooks/useData";
 import { currentDate, formatCurrency } from "../../../utils/utils";
 import StatCard from "../../utils/StartCard";
 
 function BudgetOverview() {
+    const { expenses, expenseCategories } = useData()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const transactions = [
@@ -78,11 +80,17 @@ function BudgetOverview() {
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    <Tr>
-                                        <Td>Rent</Td>
-                                        <Td isNumeric>7000</Td>
-                                        <Td isNumeric>7000</Td>
-                                    </Tr>
+                                    {
+                                        expenses && expenses.length > 0 &&
+                                        expenses.map((expense, index) => (
+
+                                            <Tr key={expense.expenseCategoryId}>
+                                                <Td>{expense?.expense_category?.name}</Td>
+                                                <Td isNumeric>7000</Td>
+                                                <Td isNumeric>{expense.amount}</Td>
+                                            </Tr>
+                                        ))
+                                    }
                                 </Tbody>
                             </Table>
                         </TableContainer>
@@ -121,9 +129,7 @@ function BudgetOverview() {
                         <FormControl >
                             <FormLabel>Select Category</FormLabel>
                             <Select
-                                options={[
-                                    { value: 1, label: 'Rent' }
-                                ]}
+                                options={expenseCategories || []}
                                 tagVariant={'solid'}
                                 colorScheme="purple"
                             />

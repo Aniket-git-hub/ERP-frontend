@@ -1,5 +1,5 @@
 import { EditIcon } from "@chakra-ui/icons";
-import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Modal, ModalBody, ModalContent, ModalOverlay, VStack, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Heading, Input, Modal, ModalBody, ModalContent, ModalOverlay, VStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { deleteMaterial, updateMaterial } from "../../../api/data";
 import { useData } from "../../../hooks/useData";
@@ -9,16 +9,12 @@ import CustomAlertDialog from "../../utils/AlertDialog";
 import DataTable from "../../utils/DataTable";
 
 function ViewEmployees() {
-    const { materials, employees } = useData()
+    const { employees } = useData()
     const toast = useToast()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const columns = [
-        { label: "Material Name", name: "name" },
-        { label: "Density", name: "density" },
-        { label: "Hardness", name: "hardness" },
-    ]
+
     const employeeColumns = [
         { label: "First Name", name: "firstName" },
         { label: "Last Name", name: "lastName" },
@@ -40,12 +36,20 @@ function ViewEmployees() {
         if (selectedItem) {
             setValues(prev => ({
                 ...prev,
-                name: selectedItem.name,
-                density: selectedItem.density,
-                hardness: selectedItem.hardness
+                firstName: selectedItem.firstName,
+                lastName: selectedItem.lastName,
+                email: selectedItem.email,
+                mobileNumber: selectedItem.mobileNumber,
+                address: selectedItem.address,
+                salary: selectedItem.salary,
+                designation: selectedItem.designation,
+                department: selectedItem.department,
+                dateOfJoining: selectedItem.dateOfJoining,
+
             }))
         }
     }, [selectedItem])
+
     const submit = async (values) => {
         onClose()
         try {
@@ -58,9 +62,11 @@ function ViewEmployees() {
             throw error
         }
     }
-    const initialState = { name: "", density: "", hardness: "" }
+
+    const initialState = { firstName: '', lastName: '', email: '', mobileNumber: '', address: '', department: '', designation: '', salary: '', dateOfJoining: '' }
     const { values, setValues, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(initialState, submit)
     const [deleting, setDeleting] = useState(false)
+
     const handleDeleteMaterial = async (materialId) => {
         try {
             setDeleting(true)
@@ -91,19 +97,15 @@ function ViewEmployees() {
 
     return (
         <>
-            <Box p={4} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'} borderRadius={'15px'}>
-                <DataTable
-                    data={materials}
-                    columns={columns}
-                    actionButton={true}
-                    actionIcon={<EditIcon />}
-                    actionProperty={"id"}
-                    onActionButtonClick={handleActionClick}
-                />
+            <Box p={4}>
 
                 <DataTable
                     data={employees}
                     columns={employeeColumns}
+                    actionButton={true}
+                    actionIcon={<EditIcon />}
+                    actionProperty={"id"}
+                    onActionButtonClick={handleActionClick}
                 />
 
             </Box>
@@ -123,38 +125,47 @@ function ViewEmployees() {
                             </Heading>
 
                             <form onSubmit={handleSubmit}>
-                                <FormControl isInvalid={errors.name} mb=".8rem">
-                                    <FormLabel>Name</FormLabel>
-                                    <Input type='text' name="name" value={values.name} autoFocus={true} onChange={handleChange()} />
-                                    <FormErrorMessage>{errors.name}</FormErrorMessage>
+                                <FormControl isInvalid={errors.firstName} isRequired>
+                                    <FormLabel>First Name</FormLabel>
+                                    <Input type="text" name="firstName" value={values.firstName} onChange={handleChange()} />
+                                    <FormErrorMessage>
+                                        {errors.firstName}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={errors.lastName} isRequired>
+                                    <FormLabel>Last Name</FormLabel>
+                                    <Input type="text" name="lastName" value={values.lastName} onChange={handleChange()} />
+                                    <FormErrorMessage>
+                                        {errors.lastName}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={errors.email} isRequired>
+                                    <FormLabel>Email</FormLabel>
+                                    <Input type="email" name="email" value={values.email} onChange={handleChange()} />
+                                    <FormErrorMessage>
+                                        {errors.email}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={errors.mobileNumber} isRequired>
+                                    <FormLabel>Mobile Number</FormLabel>
+                                    <Input type="number" name="mobileNumber" value={values.mobileNumber} onChange={handleChange()} />
+                                    <FormErrorMessage>
+                                        {errors.mobileNumber}
+                                    </FormErrorMessage>
+                                </FormControl>
+                                <FormControl isInvalid={errors.address} isRequired>
+                                    <FormLabel>Address</FormLabel>
+                                    <Input type="text" name="address" value={values.address} onChange={handleChange()} />
+                                    <FormErrorMessage>
+                                        {errors.address}
+                                    </FormErrorMessage>
                                 </FormControl>
 
-                                <HStack>
-
-
-                                    <FormControl isInvalid={errors.hardness} mb=".8rem">
-                                        <FormLabel>Hardness</FormLabel>
-                                        <InputGroup>
-                                            <Input type='number' name="hardness" textAlign={"right"} value={values.hardness} onChange={handleChange()} />
-                                            <InputRightAddon children={"HRC"} />
-                                        </InputGroup>
-                                        <FormErrorMessage>{errors.hardness}</FormErrorMessage>
-                                    </FormControl>
-
-                                    <FormControl isInvalid={errors.density} mb=".8rem">
-                                        <FormLabel>Density</FormLabel>
-                                        <InputGroup>
-                                            <Input type="number" name="density" textAlign={"right"} value={values.density} onChange={handleChange()} />
-                                            <InputRightAddon children={"kg/m3"} />
-                                        </InputGroup>
-                                        <FormErrorMessage>{errors.density}</FormErrorMessage>
-                                    </FormControl>
-                                </HStack>
 
                                 <Center w={"full"}>
                                     <VStack w={"full"}>
-                                        <Button w={"full"} type="submit" mt={5} mb={2} colorScheme='purple' isLoading={isSubmitting} loadingText="Saving..." isDisabled={isSubmitting}>
-                                            Save Material
+                                        <Button w={"full"} type="submit" mt={5} mb={2} colorScheme='purple' isLoading={isSubmitting} loadingText="Updating..." isDisabled={isSubmitting}>
+                                            Update Employee
                                         </Button>
                                     </VStack>
                                 </Center>
@@ -166,9 +177,9 @@ function ViewEmployees() {
                                         w={"full"}
                                         mb={4}
                                         colorScheme='red'
-                                        buttonText={"Delete Material"}
-                                        alertTitle={"Delete Job"}
-                                        alertText={"Are you sure you want to delete this material"}
+                                        buttonText={"Delete Employee"}
+                                        alertTitle={"Delete Employee"}
+                                        alertText={"Are you sure you want to delete this employee?"}
                                         confirmButtonText={"Delete"}
                                         confirmButtonStatus={deleting}
                                         confirmMethod={async (onClose) => {

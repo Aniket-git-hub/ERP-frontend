@@ -29,6 +29,7 @@ function LeftSidePanel() {
         { name: "Attendance", icon: IoListSharp, path: "/attendance" },
         { name: "Employees", icon: GrUserWorker, path: "/employee" },
         { name: "Budget", icon: GiExpense, path: "/budget" },
+        { name: "Income", icon: GiExpense, path: "/income" },
     ];
 
     const { remove, user } = useAuth()
