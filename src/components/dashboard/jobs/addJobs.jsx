@@ -28,14 +28,19 @@ function AddJobs() {
         }
     }
 
-    const { values, setValues, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(initialState, saveJobs, defaultValues, {
-        drawingNumber: {
-            replaceSpace: '_'
-        },
-        size: {
-            replaceSpace: 'x'
+    const { values, setValues, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(
+        initialState,
+        saveJobs,
+        defaultValues,
+        {
+            drawingNumber: {
+                replaceSpace: '_'
+            },
+            size: {
+                replaceSpace: 'x'
+            }
         }
-    })
+    )
 
     const descriptions = [
         'Mylar',

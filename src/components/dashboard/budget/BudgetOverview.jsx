@@ -1,33 +1,27 @@
-import { AddIcon } from "@chakra-ui/icons";
 import {
-    Box, Button, Card, CardBody,
-    Divider, Flex, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Icon, Input, InputGroup, InputRightAddon, List, ListItem,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalHeader,
-    ModalOverlay,
+    Box,
+    Card, CardBody,
+    Divider, Flex,
+    HStack, Heading,
+    List, ListItem,
     Table,
     TableContainer,
     Tbody,
     Td,
     Text,
-    Textarea,
     Th,
     Thead,
-    Tr,
-    useDisclosure
+    Tr
 } from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
 import { FaRupeeSign } from "react-icons/fa";
 import { useData } from "../../../hooks/useData";
 import { currentDate, formatCurrency } from "../../../utils/utils";
 import StatCard from "../../utils/StartCard";
+import AddNewBudget from "./AddNewBudget";
+import AddNewExpense from "./AddNewExpense";
 
 function BudgetOverview() {
     const { expenses, expenseCategories } = useData()
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const transactions = [
         { date: '22/10/2033', description: 'Rent', amount: 7000, type: 'debit' },
@@ -46,8 +40,8 @@ function BudgetOverview() {
             <Flex w={'100%'} justifyContent={'space-between'}>
                 <Heading size={'lg'} color={'gray.700'}>{currentDate()}</Heading>
                 <HStack>
-                    <Button colorScheme="purple" leftIcon={<Icon as={AddIcon} />} onClick={() => onOpen()}> Add Expense</Button>
-                    <Button colorScheme="purple" leftIcon={<Icon as={AddIcon} />}> New Budget</Button>
+                    <AddNewExpense />
+                    <AddNewBudget />
                 </HStack>
             </Flex>
 
@@ -119,46 +113,6 @@ function BudgetOverview() {
                 </Card>
             </Flex>
 
-            {/* modal to add expense */}
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Add Expense</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <FormControl >
-                            <FormLabel>Select Category</FormLabel>
-                            <Select
-                                options={expenseCategories || []}
-                                tagVariant={'solid'}
-                                colorScheme="purple"
-                            />
-                            <FormErrorMessage> some error</FormErrorMessage>
-                        </FormControl>
-                        <HStack>
-                            <FormControl>
-                                <FormLabel>Date</FormLabel>
-                                <Input type="date" />
-                                <FormErrorMessage> some error</FormErrorMessage>
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>Amount</FormLabel>
-                                <InputGroup>
-                                    <Input type="number" />
-                                    <InputRightAddon children={"Rs"} />
-                                </InputGroup>
-                                <FormErrorMessage> some error</FormErrorMessage>
-                            </FormControl>
-                        </HStack>
-                        <FormControl>
-                            <FormLabel>Description</FormLabel>
-                            <Textarea />
-                            <FormErrorMessage> some error </FormErrorMessage>
-                        </FormControl>
-                        <Button my={5} w="full" type="submit" colorScheme="purple">Add Expense</Button>
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
         </Box>
     )
 }
