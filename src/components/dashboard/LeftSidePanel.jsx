@@ -1,20 +1,25 @@
+import { SettingsIcon } from "@chakra-ui/icons";
 import {
     Avatar,
     Divider,
     Flex,
     Heading,
     IconButton,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
     Text
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { FiMenu } from "react-icons/fi";
+import { FiLogOut, FiMenu } from "react-icons/fi";
 import { GiExpense, GiMetalBar, GiSpanner } from "react-icons/gi";
 import { GrUserWorker } from "react-icons/gr";
 import { HiOutlineRectangleGroup } from "react-icons/hi2";
 import { IoListSharp } from "react-icons/io5";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { MdOutlinePerson } from "react-icons/md";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import NavItem from "./NavItem";
 
@@ -36,6 +41,8 @@ function LeftSidePanel() {
     const logout = () => {
         remove()
     }
+
+    const navigate = useNavigate()
 
     const [navSize, setNavSize] = useState('large')
 
@@ -88,13 +95,23 @@ function LeftSidePanel() {
                 alignItems={navSize == 'small' ? 'center' : "flex-start"}
             >
                 <Divider display={navSize == 'small' ? 'none' : 'flex'} />
-                <Flex mt={4} align={'center'}>
-                    <Avatar size={"sm"} />
-                    <Flex direction={'column'} ml={4} display={navSize == 'small' ? 'none' : 'flex'}>
-                        <Heading as={'h3'} size={'sm'} >{user.firstName + " " + user.lastName}</Heading>
-                        <Text color={'gray'} >Admin</Text>
-                    </Flex>
-                </Flex>
+                <Menu>
+
+                    <MenuButton>
+                        <Flex mt={4} align={'center'}>
+                            <Avatar size={"sm"} />
+                            <Flex direction={'column'} ml={4} display={navSize == 'small' ? 'none' : 'flex'}>
+                                <Heading as={'h3'} size={'sm'} >{user.firstName + " " + user.lastName}</Heading>
+                                <Text color={'gray'} textAlign={'left'} >Admin</Text>
+                            </Flex>
+                        </Flex>
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem icon={<SettingsIcon />} onClick={() => navigate("/settings")}>Settings</MenuItem>
+                        <MenuItem icon={<FiLogOut />} onClick={logout}>Logout</MenuItem >
+                    </MenuList>
+                </Menu>
+
             </Flex>
 
         </Flex>
