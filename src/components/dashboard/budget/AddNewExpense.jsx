@@ -26,7 +26,7 @@ function AddNewExpense() {
     return (
         <CustomModal
             trigger={(onOpen) => (
-                <Button colorScheme="purple" leftIcon={<Icon as={AddIcon} />} onClick={onOpen}> New Budget</Button>
+                <Button colorScheme="purple" leftIcon={<Icon as={AddIcon} />} onClick={onOpen}> New Expense</Button>
             )}
             size={"md"}
             hideFooterClose={true}
@@ -64,7 +64,7 @@ function AddNewExpense() {
                     <Textarea name="description" value={values.description} onChange={handleChange()} />
                     <FormErrorMessage> {errors.description} </FormErrorMessage>
                 </FormControl>
-                <Button my={5} w="full" type="submit" colorScheme="purple" loadingText="Adding Expense" isLoading={isSubmitting} isDisabled={isSubmitting}>Add Budget</Button>
+                <Button my={5} w="full" type="submit" colorScheme="purple" loadingText="Adding Expense" isLoading={isSubmitting} isDisabled={isSubmitting}>Add Expense</Button>
             </form>
         </CustomModal>
     )

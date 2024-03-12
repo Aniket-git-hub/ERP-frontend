@@ -106,7 +106,7 @@ function LeftSidePanel() {
                             </Flex>
                         </Flex>
                     </MenuButton>
-                    <MenuList>
+                    <MenuList zIndex={10}>
                         <MenuItem icon={<SettingsIcon />} onClick={() => navigate("/settings")}>Settings</MenuItem>
                         <MenuItem icon={<FiLogOut />} onClick={logout}>Logout</MenuItem >
                     </MenuList>

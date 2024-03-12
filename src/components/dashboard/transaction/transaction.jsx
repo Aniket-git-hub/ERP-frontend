@@ -1,7 +1,9 @@
-import { Box, Flex, Heading, Table, TableContainer, Th, Thead } from "@chakra-ui/react"
-import CustomForm from "../../utils/CustomForm"
+import { Box, Flex, Heading, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
+import { useData } from "../../../hooks/useData"
+import { formatDate } from "../../../utils/utils"
 
 function Transaction() {
+    const { transactions } = useData()
     const fields = [
         {
             horizontal: true,
@@ -37,25 +39,40 @@ function Transaction() {
     const initialState = { firstName: '', lastName: "", email: "", password: "", age: "", bloodGroup: "", address: "" }
     return (
         <Box>
+            <Heading size={'md'} color={'gray.700'}>Transaction this month</Heading>
             <Flex>
-                <Heading size={'md'} color={'gray.700'}>Transaction this month</Heading>
                 <TableContainer>
                     <Table>
                         <Thead>
-                            <Th>
-                                Sr. No
-                            </Th>
-                            <Th>Amount</Th>
+                            <Tr>
 
+                                <Th>#</Th>
+                                <Th>date</Th>
+                                <Th>type</Th>
+                                <Th isNumeric>Amount</Th>
+                            </Tr>
                         </Thead>
+                        <Tbody>
+                            {
+                                transactions && transactions.length > 0 &&
+                                transactions.map((transaction, index) => (
+                                    <Tr fontWeight={'semibold'} color={transaction.type === 'credit' ? 'green.700' : 'red.600'} key={`${transaction.date}-${index}`}>
+                                        <Td>{index + 1}</Td>
+                                        <Td>{formatDate(transaction.date, 'dd-mon-yyyy')}</Td>
+                                        <Td>{transaction.type}</Td>
+                                        <Td isNumeric>{transaction.amount}</Td>
+                                    </Tr>
+                                ))
+                            }
+                        </Tbody>
                     </Table>
                 </TableContainer>
-                <CustomForm
+                {/* <CustomForm
                     submitButtonText={"Submit"}
                     loadingText={"submitting..."}
                     fields={fields}
                     initialState={initialState}
-                />
+                /> */}
             </Flex>
         </Box>
     )

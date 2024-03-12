@@ -3,13 +3,15 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import {
   getAggregateInvoiceData,
   getAggregateJobData,
+  getBudgets,
   getClients,
   getEmployees,
   getExpenseCategories,
   getExpenses,
   getInvoices,
   getJobs,
-  getMaterials
+  getMaterials,
+  getTransactions
 } from './api/data';
 import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';
@@ -34,6 +36,7 @@ function App() {
   const {
     setExpenseCategories,
     setExpenses,
+    setBudgets,
     setInvoices,
     setJobs,
     setClients,
@@ -45,6 +48,7 @@ function App() {
     setCurrentYearJobAggregate,
     setCurrentYearInvoiceAggregate,
     setEmployees,
+    setTransactions,
   } = useData();
 
   useEffect(() => {
@@ -72,6 +76,8 @@ function App() {
             employees,
             expenses,
             expenseCategories,
+            budgets,
+            transactions,
           ] = await Promise.all([
             getMaterials(),
             getClients(),
@@ -85,7 +91,9 @@ function App() {
             getAggregateInvoiceData('yearly', currentYear.toString()),
             getEmployees(),
             getExpenses(),
-            getExpenseCategories()
+            getExpenseCategories(),
+            getBudgets(),
+            getTransactions()
           ]);
 
           const { data: { materials } } = materialsResponse;
@@ -106,6 +114,8 @@ function App() {
           setEmployees(employees.data.employees)
           setExpenseCategories(expenseCategories.data.expenseCategories)
           setExpenses(expenses.data.expenses)
+          setBudgets(budgets.data.budgets)
+          setTransactions(transactions.data.transactions)
         }
       } catch (error) {
         console.log(error);

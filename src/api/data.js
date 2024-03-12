@@ -142,6 +142,15 @@ export const createExpense = async (data) => handleRequest('/expense', data, 'PO
 export const updateExpense = async (data, expenseId) => handleRequest(`/expense/${expenseId}`, data, 'PUT')
 export const deleteExpense = async (expenseId) => handleRequest(`/expense/${expenseId}`, {}, 'DELETE')
 
+// budget methods 
+export const getBudgets = async () => handleRequest('/budget', {}, 'GET')
+export const createBudgets = async (data) => handleRequest('/budget', data, 'POST')
+export const updateBudgets = async (data, budgetId) => handleRequest(`/budget/${budgetId}`, data, 'PUT')
+export const deleteBudgets = async (budgetId) => handleRequest(`/budget/${budgetId}`, {}, 'DELETE')
+
+// transaction methods 
+export const getTransactions = async () => handleRequest('/transaction', {}, 'GET')
+
 // expense category methods 
 export const getExpenseCategories = async () => handleRequest('/expense-category', {}, 'GET')
 export const createExpenseCategory = async (data) => handleRequest('/expense-category', data, 'POST')
