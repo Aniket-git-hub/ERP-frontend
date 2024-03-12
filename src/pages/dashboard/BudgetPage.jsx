@@ -1,6 +1,7 @@
 import Budget from "../../components/dashboard/budget/Budget";
 import BudgetOverview from "../../components/dashboard/budget/BudgetOverview";
 import ExpenseOverview from "../../components/dashboard/budget/ExpenseOverview";
+import ExpenseCategoryPage from "../../components/dashboard/budget/expenseCategoryPage";
 import Transaction from "../../components/dashboard/transaction/transaction";
 import TabsComponent from "../../components/utils/TabsComponent";
 
@@ -11,6 +12,7 @@ function BudgetPage() {
         { title: "Expenses", component: <ExpenseOverview /> },
         { title: "Budgets", component: <Budget /> },
         { title: "Transactions", component: <Transaction /> },
+        { title: "Expense Categories", component: <ExpenseCategoryPage /> },
     ];
     return <TabsComponent tabs={tabs} />
 }

@@ -11,6 +11,7 @@ import {
   getInvoices,
   getJobs,
   getMaterials,
+  getScrapSell,
   getTransactions
 } from './api/data';
 import { useAuth } from './hooks/useAuth';
@@ -25,10 +26,10 @@ import ClientsPage from './pages/dashboard/ClientsPage';
 import EmployeePage from './pages/dashboard/EmployeePage';
 import FeedbackPage from './pages/dashboard/FeedbackPage';
 import HomePage from './pages/dashboard/HomePage';
-import IncomePage from './pages/dashboard/IncomePage';
 import InvoicePage from './pages/dashboard/InvoicePage';
 import JobsPage from './pages/dashboard/JobsPage';
 import MaterialsPage from './pages/dashboard/MaterialsPage';
+import ScrapPage from './pages/dashboard/ScrapPage';
 import SettingsPage from './pages/dashboard/SettingsPage';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
     setCurrentYearInvoiceAggregate,
     setEmployees,
     setTransactions,
+    setScrapSell
   } = useData();
 
   useEffect(() => {
@@ -78,6 +80,7 @@ function App() {
             expenseCategories,
             budgets,
             transactions,
+            scrapSell,
           ] = await Promise.all([
             getMaterials(),
             getClients(),
@@ -93,7 +96,8 @@ function App() {
             getExpenses(),
             getExpenseCategories(),
             getBudgets(),
-            getTransactions()
+            getTransactions(),
+            getScrapSell()
           ]);
 
           const { data: { materials } } = materialsResponse;
@@ -116,6 +120,7 @@ function App() {
           setExpenses(expenses.data.expenses)
           setBudgets(budgets.data.budgets)
           setTransactions(transactions.data.transactions)
+          setScrapSell(scrapSell.data)
         }
       } catch (error) {
         console.log(error);
@@ -146,9 +151,10 @@ function App() {
         <Route path="attendance" element={<AttendancePage />} />
         <Route path="employee" element={<EmployeePage />} />
         <Route path="budget" element={<BudgetPage />} />
-        <Route path="income" element={<IncomePage />} />
+        <Route path="scrap" element={<ScrapPage />} />
         <Route path="about-us" element={<AboutusPage />} />
         <Route path="feedback" element={<FeedbackPage />} />
+        <Route path="*" element={<Error404Page />} />
       </Route>
       <Route
         path="/login"

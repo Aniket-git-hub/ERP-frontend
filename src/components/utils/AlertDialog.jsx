@@ -1,19 +1,15 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useDisclosure } from "@chakra-ui/react"
 import { useRef } from "react"
 
-function CustomAlertDialog({ buttonText, alertTitle, alertText, confirmButtonStatus, confirmButtonText, confirmMethod, ...buttonProps }) {
+function CustomAlertDialog({ button, buttonText, alertTitle, alertText, confirmButtonStatus, confirmButtonText, confirmMethod, ...buttonProps }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = useRef()
 
     return (
         <>
-            <Button
-                {...buttonProps}
-                colorScheme='red'
-                onClick={onOpen}
-            >
-                {buttonText}
-            </Button>
+            {
+                button && button(onOpen)
+            }
 
             <AlertDialog
                 isOpen={isOpen}

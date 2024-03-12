@@ -140,10 +140,14 @@ function ViewClients() {
                             <Center w={"full"}>
                                 <VStack w={"full"}>
                                     <CustomAlertDialog
-                                        w={"full"}
-                                        mb={4}
-                                        colorScheme='red'
-                                        buttonText={"Delete Client"}
+                                        button={(onOpen) => (
+                                            <Button
+                                                w={"full"}
+                                                mb={4}
+                                                colorScheme='red'
+                                                onClick={() => onOpen()}
+                                            > Delete Job</Button>
+                                        )}
                                         alertTitle={"Delete Client"}
                                         alertText={"Are you sure you want to delete this client"}
                                         confirmButtonText={"Delete"}

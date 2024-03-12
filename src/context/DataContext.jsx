@@ -22,6 +22,7 @@ export const DataProvider = ({ children }) => {
     const [expenses, setExpenses] = useState([])
     const [budgets, setBudgets] = useState([])
     const [transactions, setTransactions] = useState([])
+    const [scrapSell, setScrapSell] = useState([])
 
     useEffect(() => {
         if (clients && clients.length > 0) {
@@ -72,6 +73,8 @@ export const DataProvider = ({ children }) => {
                 setBudgets,
                 transactions,
                 setTransactions,
+                scrapSell,
+                setScrapSell,
             }}
         >
             {children}

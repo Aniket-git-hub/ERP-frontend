@@ -34,7 +34,7 @@ function LeftSidePanel() {
         { name: "Attendance", icon: IoListSharp, path: "/attendance" },
         { name: "Employees", icon: GrUserWorker, path: "/employee" },
         { name: "Budget", icon: GiExpense, path: "/budget" },
-        { name: "Income", icon: GiExpense, path: "/income" },
+        { name: "Scrap", icon: GiExpense, path: "/scrap" },
     ];
 
     const { remove, user } = useAuth()
@@ -96,7 +96,6 @@ function LeftSidePanel() {
             >
                 <Divider display={navSize == 'small' ? 'none' : 'flex'} />
                 <Menu>
-
                     <MenuButton>
                         <Flex mt={4} align={'center'}>
                             <Avatar size={"sm"} />
