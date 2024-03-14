@@ -9,6 +9,22 @@ export function formatDate(date, type) {
     }
 }
 
+export function convertTo12HourFormat(time24) {
+    let timeSplit = time24.split(":");
+    let hours = parseInt(timeSplit[0]);
+    let minutes = parseInt(timeSplit[1]);
+    let seconds = parseInt(timeSplit[2]);
+
+    let time = new Date();
+    time.setHours(hours);
+    time.setMinutes(minutes);
+    time.setSeconds(seconds);
+
+    let formattedTime = time.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+
+    return formattedTime;
+}
+
 export function currentDate() {
     return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: "numeric" }).format(new Date())
 }

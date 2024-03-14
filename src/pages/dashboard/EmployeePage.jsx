@@ -6,9 +6,10 @@ import TabsComponent from "../../components/utils/TabsComponent";
 function EmployeePage() {
     const tabs = [
         { title: "Overview", component: <EmployeeOverview /> },
+        { title: "Advance", component: <AddEmployee /> },
+        { title: "Payment", component: <AddEmployee /> },
         { title: "View Employees", component: <ViewEmployees /> },
         { title: "Add Employee", component: <AddEmployee /> },
-        { title: "Advance", component: <AddEmployee /> },
     ];
     return <TabsComponent tabs={tabs} />
 }

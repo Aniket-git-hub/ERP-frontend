@@ -1,7 +1,10 @@
+import { Box } from "@chakra-ui/react"
 
 function EmployeeOverview() {
     return (
-        <div>EmployeeOverview</div>
+        <Box>
+
+        </Box>
     )
 }
 

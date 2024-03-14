@@ -52,7 +52,7 @@ function LeftSidePanel() {
             left={5}
             h={"95vh"}
             margin={"2.5vh"}
-            boxShadow={" 0 2px 4px rgba(0, 0, 0, 0.3)"}
+            boxShadow={"rgba(149, 157, 165, 0.4) 0px 8px 24px"}
             w={navSize == 'small' ? '70px' : "200px"}
             flexDir={"column"}
             borderRadius={navSize == 'small' ? '15px' : '25px'}

@@ -5,6 +5,7 @@ import {
 import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
+import { convertTo12HourFormat } from "../../utils/utils";
 import FilterMenu from "./FilterMenu";
 
 function DataTable({ data, columns, paginationData, changePage, changeLimit, firstFilter, actionIcon, actionButton, onActionButtonClick }) {
@@ -113,7 +114,7 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
                             <Td whiteSpace="normal" p={3}>{i + 1}</Td>
                             {
                                 columns.map((column, index) => {
-                                    const value = column.isDate ? formatDate(item[column.name]) : column.isBoolean ? item[column.name] ? 'Yes' : 'No' : item[column.name];
+                                    const value = column.isDate ? formatDate(item[column.name]) : column.isBoolean ? item[column.name] ? 'Yes' : 'No' : column.isTime ? convertTo12HourFormat(item[column.name]) : item[column.name];
                                     return <Td isNumeric={column.isNumeric} whiteSpace="normal" p={2} key={index} >{value ? value : '-'}</Td>;
                                 })
                             }

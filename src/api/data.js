@@ -132,6 +132,13 @@ export const getEmployees = async () => handleRequest(`/employee`, {}, 'GET')
 export const updateEmployee = async (data, employeeId) => handleRequest(`/employee/${employeeId}`, data, 'PUT')
 export const deleteEmployee = async (employeeId) => handleRequest(`/employee/${employeeId}`, {}, 'DELETE')
 
+// employee methods 
+export const addEmployeeAttendance = async (data) => handleRequest(`/employee`, data, 'POST')
+export const getEmployeesAttendance = async (employeeId, date) => handleRequest(`/attendance/${employeeId}?date=${date}`, {}, 'GET')
+export const updateEmployeeAttendance = async (data, employeeId) => handleRequest(`/employee/${employeeId}`, data, 'PUT')
+export const deleteEmployeeAttendance = async (employeeId) => handleRequest(`/employee/${employeeId}`, {}, 'DELETE')
+export const getAggregateAttendance = async (employeeId, type, month, year) => handleRequest(`/attendance/aggregate/${employeeId}/?type=${type}&year=${year}&month=${month}`, {}, 'GET')
+
 // payment receipts methods 
 export const createPaymentReceipt = async (data, employeeId) => handleRequest(`payment-receipt/${employeeId}`, data, 'POST')
 export const getPaymentReceipts = async (employeeId) => handleRequest(`payment-receipt/${employeeId}`, {}, 'GET')

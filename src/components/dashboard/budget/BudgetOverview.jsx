@@ -78,7 +78,7 @@ function BudgetOverview() {
                                         expenses && expenses.length > 0 &&
                                         expenses.map((expense, index) => (
 
-                                            <Tr key={expense.expenseCategoryId}>
+                                            <Tr key={expense.expenseCategoryId + index}>
                                                 <Td>{expense?.expense_category?.name}</Td>
                                                 <Td isNumeric>7000</Td>
                                                 <Td isNumeric>{expense.amount}</Td>
@@ -97,7 +97,7 @@ function BudgetOverview() {
 
                             {transactions.map((transaction, index) => (
                                 <>
-                                    <ListItem py={3} px={5}>
+                                    <ListItem py={3} px={5} key={`${transaction.date}-${transaction.id}`}>
                                         <Flex w={'100%'} justifyContent={'space-between'} color={transaction.type == 'debit' ? 'red.600' : 'green.600'} fontWeight={'semibold'} fontSize={'lg'}>
                                             <Text>{transaction.date}</Text>
                                             <Text>{transaction.description}</Text>
