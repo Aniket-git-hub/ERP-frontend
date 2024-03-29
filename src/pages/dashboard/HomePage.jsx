@@ -44,7 +44,7 @@ function HomePage() {
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {cards.map((card, index) => (
-                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={index} />
+                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={`${index}-${card.title}`} />
                 ))}
             </Flex>
             <Text fontSize={'xs'} fontWeight={'bold'} color={'gray.600'} textTransform={'uppercase'}>
@@ -52,7 +52,7 @@ function HomePage() {
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {previousMonthCards.map((card, index) => (
-                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={index} />
+                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={`${index}-${card.title}`} />
                 ))}
             </Flex>
             <Text fontSize={'xs'} fontWeight={'bold'} color={'gray.600'} textTransform={'uppercase'}>
@@ -60,7 +60,7 @@ function HomePage() {
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {currentYearCard.map((card, index) => (
-                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={index} />
+                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={`${index}-${card.title}`} />
                 ))}
             </Flex>
         </Box>

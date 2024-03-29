@@ -119,6 +119,10 @@ export const deleteJob = async (jobId) => handleRequest(`/job/${jobId}`, {}, 'DE
 export const updateJob = async (jobId, data) => handleRequest(`/job/${jobId}`, data, 'PUT')
 export const addJob = async (data) => handleRequest('/job/', data, 'POST')
 export const getAggregateJobData = async (type, year, month) => handleRequest(`/job/aggregate?type=${type}&month=${month}&year=${year}`, {}, 'GET')
+export const getOperations = async () => handleRequest(`/job/operations`, {}, 'GET')
+export const addOperations = async (data) => handleRequest(`/job/operations`, data, 'POST')
+export const deleteOperation = async (id) => handleRequest(`/job/operations/${id}`, {}, 'PUT')
+
 
 // Invoice methods
 export const getInvoices = async (data) => handleRequest('/invoice', {}, 'GET')
@@ -129,6 +133,7 @@ export const getAggregateInvoiceData = async (type, year, month) => handleReques
 // employee methods 
 export const addEmployee = async (data) => handleRequest(`/employee`, data, 'POST')
 export const getEmployees = async () => handleRequest(`/employee`, {}, 'GET')
+export const getEmployeeOptions = async () => handleRequest(`/employee/options`, {}, 'GET')
 export const updateEmployee = async (data, employeeId) => handleRequest(`/employee/${employeeId}`, data, 'PUT')
 export const deleteEmployee = async (employeeId) => handleRequest(`/employee/${employeeId}`, {}, 'DELETE')
 
@@ -142,6 +147,10 @@ export const getAggregateAttendance = async (employeeId, type, month, year) => h
 // payment receipts methods 
 export const createPaymentReceipt = async (data, employeeId) => handleRequest(`payment-receipt/${employeeId}`, data, 'POST')
 export const getPaymentReceipts = async (employeeId) => handleRequest(`payment-receipt/${employeeId}`, {}, 'GET')
+
+// advances 
+export const createAdvance = async (employeeId, data) => handleRequest(`advance/${employeeId}`, data, 'POST')
+export const getAdvances = async () => handleRequest(`advance/`, {}, 'GET')
 
 // expense methods 
 export const getExpenses = async () => handleRequest('/expense', {}, 'GET')

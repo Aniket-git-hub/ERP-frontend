@@ -22,11 +22,14 @@ function ViewJobs() {
         if (!item || (item && item.length < 1)) return []
         return item.map(job => {
             const flattenedJob = { ...job };
-            if (job.Client && typeof job.Client === 'object') {
-                flattenedJob.Client = job.Client.name;
+            if (job.client && typeof job.client === 'object') {
+                flattenedJob.client = job.client.name;
             }
-            if (job.Material && typeof job.Material === 'object') {
-                flattenedJob.Material = job.Material.name;
+            if (job.material && typeof job.material === 'object') {
+                flattenedJob.material = job.material.name;
+            }
+            if (job.operation_costs && Array.isArray(job.operation_costs) && job.operation_costs.length > 0) {
+                flattenedJob["rate"] = job.operation_costs.reduce((acc, curr) => acc + parseInt(curr.cost), 0);
             }
             return flattenedJob;
         })
@@ -49,10 +52,10 @@ function ViewJobs() {
     const columns = [
         { label: 'Drawing Number', name: 'drawingNumber' },
         { label: 'Date', name: 'date', isDate: true },
-        { label: 'Client', name: 'Client' },
+        { label: 'Client', name: 'client' },
         { label: 'Description', name: 'description' },
         { label: 'Size', name: 'size' },
-        { label: 'Material', name: 'Material' },
+        { label: 'Material', name: 'material' },
         { label: 'Billed', name: 'InvoiceId', isBoolean: true },
         { label: 'Qty', name: 'qty', isNumeric: true },
         { label: 'Rate', name: 'rate', isNumeric: true },

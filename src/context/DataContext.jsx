@@ -6,6 +6,7 @@ export const DataProvider = ({ children }) => {
     const [clients, setClients] = useState([])
     const [materials, setMaterials] = useState([])
     const [jobs, setJobs] = useState([])
+    const [operations, setOperations] = useState([])
     const [invoices, setInvoices] = useState([])
     const [invoiceJob, setInvoiceJobs] = useState([])
     const [clientOptions, setClientOptions] = useState([])
@@ -18,11 +19,13 @@ export const DataProvider = ({ children }) => {
     const [currentYearJobAggregate, setCurrentYearJobAggregate] = useState({})
     const [currentYearInvoiceAggregate, setCurrentYearInvoiceAggregate] = useState({})
     const [employees, setEmployees] = useState([])
+    const [employeeOptions, setEmployeeOptions] = useState([])
     const [expenseCategories, setExpenseCategories] = useState([])
     const [expenses, setExpenses] = useState([])
     const [budgets, setBudgets] = useState([])
     const [transactions, setTransactions] = useState([])
     const [scrapSell, setScrapSell] = useState([])
+    const [advances, setAdvances] = useState([])
 
     useEffect(() => {
         if (clients && clients.length > 0) {
@@ -45,6 +48,8 @@ export const DataProvider = ({ children }) => {
                 setClients,
                 jobs,
                 setJobs,
+                operations,
+                setOperations,
                 invoices,
                 setInvoices,
                 invoiceJob,
@@ -75,6 +80,10 @@ export const DataProvider = ({ children }) => {
                 setTransactions,
                 scrapSell,
                 setScrapSell,
+                employeeOptions,
+                setEmployeeOptions,
+                advances,
+                setAdvances,
             }}
         >
             {children}

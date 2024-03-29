@@ -1,25 +1,31 @@
-import { Box, Button, Center, Flex, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Switch, Textarea, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Checkbox, Flex, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Switch, Textarea, VStack } from "@chakra-ui/react";
 import {
     Select
 } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
-import { addJob } from "../../../api/data";
 import { useData } from "../../../hooks/useData";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 
 function AddJobs() {
     const drawingNumberInputRef = useRef()
-    const { clients, materials } = useData()
-    const initialState = { drawingNumber: '', quantity: '', rate: '', clientId: -1, materialId: -1, date: '', size: '', description: '' }
+    const { clients, materials, operations } = useData()
+    const [initialState, setInitialState] = useState({ drawingNumber: '', quantity: '', clientId: -1, materialId: -1, date: '', size: '', description: '', })
     const [defaultValues, setDefaultValues] = useState({ clientId: '', materialId: '', date: '', description: '' })
-
+    useEffect(() => {
+        const is = {};
+        operations.forEach(operation => {
+            is[operation.name] = '';
+        });
+        setInitialState(prev => ({ ...prev, ...is }));
+    }, [operations])
 
     const saveJobs = async (values) => {
         if (!useDefaultDescription) {
             setDefaultDescription([])
         }
         try {
-            const { data: { message } } = await addJob(values)
+            console.log(values)
+            // const { data: { message } } = await addJob(values)
             return { message, title: "Save Jobs" }
         } catch (error) {
             console.log(error)
@@ -99,17 +105,18 @@ function AddJobs() {
     return (
         <Flex gap={10}>
             <Box mx={10} flex={1} boxShadow={'0px 3px 15px rgba(0,0,0,0.2)'} p={5} px={10} rounded={'lg'}>
-                <Heading size={"md"} mb={5} color={'gray.700'}>
+                <Heading size={"md"} mb={3} color={'gray.700'}>
                     Add Drawing
                 </Heading>
                 <form onSubmit={handleSubmit}>
-                    <FormControl isInvalid={errors.drawingNumber} isRequired mb=".8rem">
+                    <FormControl isInvalid={errors.drawingNumber} isRequired mb=".5rem">
                         <FormLabel>Drawing Number</FormLabel>
-                        <Input type='text' name="drawingNumber" value={values.drawingNumber.toUpperCase()} onChange={handleChange()} autoFocus={true} ref={drawingNumberInputRef} />
+                        <Input type='text' placeholder="eg. XYZ" name="drawingNumber" value={values.drawingNumber.toUpperCase()} onChange={handleChange()} autoFocus={true} ref={drawingNumberInputRef} />
                         <FormErrorMessage>{errors.drawingNumber}</FormErrorMessage>
                     </FormControl>
+
                     <HStack>
-                        <FormControl isInvalid={errors.quantity} isRequired mb=".8rem">
+                        <FormControl isInvalid={errors.quantity} isRequired mb=".5rem">
                             <FormLabel>Quantity</FormLabel>
                             <InputGroup>
                                 <Input type='number' name="quantity" value={values.quantity} onChange={handleChange()} textAlign={"right"} />
@@ -117,15 +124,7 @@ function AddJobs() {
                             </InputGroup>
                             <FormErrorMessage>{errors.quantity}</FormErrorMessage>
                         </FormControl>
-                        <FormControl isInvalid={errors.rate} mb=".8rem">
-                            <FormLabel>Rate</FormLabel>
-                            <InputGroup>
-                                <Input type='number' name="rate" value={values.rate} onChange={handleChange()} textAlign={"right"} />
-                                <InputRightAddon children="Rs" />
-                            </InputGroup>
-                            <FormErrorMessage>{errors.rate}</FormErrorMessage>
-                        </FormControl>
-                        <FormControl isInvalid={errors.date} isRequired mb=".8rem">
+                        <FormControl isInvalid={errors.date} isRequired mb=".5rem">
                             <FormLabel>Date</FormLabel>
                             <Input type='date' name="date" value={values.date} onChange={handleChange()} />
                             <FormErrorMessage>{errors.date}</FormErrorMessage>
@@ -133,7 +132,7 @@ function AddJobs() {
                     </HStack>
 
                     <HStack>
-                        <FormControl isInvalid={errors.clientId} isRequired mb=".8rem">
+                        <FormControl isInvalid={errors.clientId} isRequired mb=".5rem">
                             <FormLabel>Select Client</FormLabel>
                             <Select
                                 onChange={handleChange('clientId')}
@@ -151,7 +150,7 @@ function AddJobs() {
                             </FormErrorMessage>
                         </FormControl>
 
-                        <FormControl mb=".8rem">
+                        <FormControl mb=".5rem">
                             <FormLabel>Select Materials</FormLabel>
                             <Select
                                 onChange={handleChange('materialId')}
@@ -170,13 +169,34 @@ function AddJobs() {
                         </FormControl>
                     </HStack>
 
-                    <FormControl isInvalid={errors.size} mb=".8rem">
+                    <FormControl mb=".5rem">
+                        <FormLabel>Operations & Rate</FormLabel>
+                        <Flex wrap={"wrap"} gap={3}>
+                            {
+                                operations && operations.map((operation, index) => (
+                                    <FormControl maxW={"25%"} key={`${operation.name}-${index}`}>
+                                        <Checkbox mb=".3rem" name={operation.name.toLowerCase()} value={operation.id} onChange={handleChange()}>
+                                            {operation.name}
+                                        </Checkbox>
+                                        <InputGroup hidden>
+                                            <Input type='number' placeholder={`${operation.name} Rate`} name="rate" value={values.rate} onChange={handleChange()} textAlign={"right"} />
+                                        </InputGroup>
+                                        <FormErrorMessage></FormErrorMessage>
+                                    </FormControl>
+                                ))
+                            }
+
+                        </Flex>
+                        <FormErrorMessage>{errors.drawingNumber}</FormErrorMessage>
+                    </FormControl>
+
+                    <FormControl isInvalid={errors.size} mb=".5rem">
                         <FormLabel>Size</FormLabel>
                         <Input type='text' name="size" value={values.size.toUpperCase()} onChange={handleChange()} />
                         <FormErrorMessage>{errors.size}</FormErrorMessage>
                     </FormControl>
 
-                    <FormControl isInvalid={errors.description} mb=".8rem">
+                    <FormControl isInvalid={errors.description} mb=".5rem">
                         <FormLabel>Description</FormLabel>
                         <Textarea name="description" value={values.description} onChange={handleChange()} />
                         <FormErrorMessage>{errors.description}</FormErrorMessage>

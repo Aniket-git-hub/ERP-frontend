@@ -1,9 +1,9 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
-const TabsComponent = ({ tabs, defaultIndex = 0 }) => {
+const TabsComponent = ({ tabs, defaultIndex = 0, orientation = "horizontal" }) => {
     return (
         <Box>
-            <Tabs variant='enclosed' defaultIndex={defaultIndex}>
+            <Tabs orientation={orientation} variant='enclosed' defaultIndex={defaultIndex}>
                 <TabList>
                     {tabs.map((tab, index) => (
                         <Tab key={index} _selected={{ bg: "purple.600", color: 'purple.50', fontWeight: "bolder" }}>

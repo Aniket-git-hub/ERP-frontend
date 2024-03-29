@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import {
+  getAdvances,
   getAggregateInvoiceData,
   getAggregateJobData,
   getBudgets,
   getClients,
+  getEmployeeOptions,
   getEmployees,
   getExpenseCategories,
   getExpenses,
   getInvoices,
   getJobs,
   getMaterials,
+  getOperations,
   getScrapSell,
   getTransactions
 } from './api/data';
@@ -50,7 +53,10 @@ function App() {
     setCurrentYearInvoiceAggregate,
     setEmployees,
     setTransactions,
-    setScrapSell
+    setScrapSell,
+    setEmployeeOptions,
+    setAdvances,
+    setOperations
   } = useData();
 
   useEffect(() => {
@@ -81,6 +87,9 @@ function App() {
             budgets,
             transactions,
             scrapSell,
+            employeeOptions,
+            advances,
+            operations,
           ] = await Promise.all([
             getMaterials(),
             getClients(),
@@ -97,16 +106,18 @@ function App() {
             getExpenseCategories(),
             getBudgets(),
             getTransactions(),
-            getScrapSell()
+            getScrapSell(),
+            getEmployeeOptions(),
+            getAdvances(),
+            getOperations(),
           ]);
 
           const { data: { materials } } = materialsResponse;
-          const { data: { items } } = clientsResponse;
           const { data: jobsData } = jobsResponse;
           const { data: invoiceData } = invoicesResponse;
 
           setMaterials(materials);
-          setClients(items);
+          setClients(clientsResponse.data.items);
           setJobs(jobsData);
           setInvoices(invoiceData.items);
           setCurrentMonthJobAggregate(currentMonthJobAggregate.data)
@@ -121,6 +132,9 @@ function App() {
           setBudgets(budgets.data.budgets)
           setTransactions(transactions.data.transactions)
           setScrapSell(scrapSell.data)
+          setEmployeeOptions(employeeOptions.data.employees)
+          setAdvances(advances.data.advances)
+          setOperations(operations.data.operations)
         }
       } catch (error) {
         console.log(error);
