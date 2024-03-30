@@ -3,6 +3,7 @@ import {
     Select
 } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
+import { addJob } from "../../../api/data.js";
 import { useData } from "../../../hooks/useData";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 
@@ -11,10 +12,12 @@ function AddJobs() {
     const { clients, materials, operations } = useData()
     const [initialState, setInitialState] = useState({ drawingNumber: '', quantity: '', clientId: -1, materialId: -1, date: '', size: '', description: '', })
     const [defaultValues, setDefaultValues] = useState({ clientId: '', materialId: '', date: '', description: '' })
+
     useEffect(() => {
         const is = {};
         operations.forEach(operation => {
-            is[operation.name] = '';
+            is[operation.name.toLowerCase()] = '';
+            is[`${operation.name.toLowerCase()}Cost`] = " ";
         });
         setInitialState(prev => ({ ...prev, ...is }));
     }, [operations])
@@ -23,12 +26,32 @@ function AddJobs() {
         if (!useDefaultDescription) {
             setDefaultDescription([])
         }
+
+        let op = []
+        let opCost = []
+        operations.forEach(operation => {
+            const operationName = operation.name.toLowerCase();
+            if (values.hasOwnProperty(operationName)) {
+                op.push(+values[operationName]);
+            }
+
+            const costPropertyName = `${operationName.charAt(0).toUpperCase() + operationName.slice(1)}Cost`;
+
+            if (values.hasOwnProperty(costPropertyName)) {
+                const cost = values[costPropertyName];
+                opCost.push({ operationId: +values[operationName], operationCost: +cost });
+            }
+        });
+
+        values.operations = op
+        values.operationCosts = opCost
+
         try {
             console.log(values)
-            // const { data: { message } } = await addJob(values)
+            const { data: { message } } = await addJob(values)
             return { message, title: "Save Jobs" }
         } catch (error) {
-            console.log(error)
+            throw error
         } finally {
             drawingNumberInputRef.current.focus()
         }
@@ -178,8 +201,17 @@ function AddJobs() {
                                         <Checkbox mb=".3rem" name={operation.name.toLowerCase()} value={operation.id} onChange={handleChange()}>
                                             {operation.name}
                                         </Checkbox>
-                                        <InputGroup hidden>
-                                            <Input type='number' placeholder={`${operation.name} Rate`} name="rate" value={values.rate} onChange={handleChange()} textAlign={"right"} />
+                                        <InputGroup
+                                            hidden={values[operation.name.toLowerCase()] ? values[operation.name.toLowerCase()] == -1 ? true : false : true}>
+                                            <Input
+                                                type='number'
+                                                placeholder={`${operation.name} Rate`}
+                                                name={`${operation.name}Cost`}
+                                                value={values[`${operation.name}Cost`]}
+                                                onChange={handleChange()}
+                                                textAlign={"right"}
+                                            />
+                                            {/* <InputRightAddon children={'Rs'} /> */}
                                         </InputGroup>
                                         <FormErrorMessage></FormErrorMessage>
                                     </FormControl>

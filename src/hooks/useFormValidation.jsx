@@ -88,17 +88,24 @@ export function useFormValidation(initialState, submit, defaultValues = {}, opti
 
     const handleChange = (name) => (event) => {
         if (event && event.target) {
-            let newValue = event.target.value;
+            let newValue = event.target.value
             const fieldName = event.target.name
 
             if (options[fieldName] && options[fieldName].replaceSpace) {
-                newValue = newValue.replace(/\s/g, options[fieldName].replaceSpace);
+                newValue = newValue.replace(/\s/g, options[fieldName].replaceSpace)
             }
 
-            setValues((prevValues) => ({
-                ...prevValues,
-                [fieldName]: newValue,
-            }));
+            if (event.target.type === "checkbox" && event.target.checked == false) {
+                setValues((prevValues) => ({
+                    ...prevValues,
+                    [fieldName]: -1,
+                }));
+            } else {
+                setValues((prevValues) => ({
+                    ...prevValues,
+                    [fieldName]: newValue,
+                }));
+            }
 
         } else {
             setValues((prevValues) => ({
