@@ -91,7 +91,7 @@ function ViewInvoices() {
                                     <Td py={0} px={3} >{i + 1}</Td>
                                     <Td py={0} px={3} >{invoice.invoiceNumber}</Td>
                                     <Td py={0} px={3} >{formatDate(invoice.invoiceDate)}</Td>
-                                    <Td py={0} px={3} >{invoice?.Client?.name}</Td>
+                                    <Td py={0} px={3} >{invoice?.client?.name}</Td>
                                     <Td py={0} px={3} isNumeric >{invoice.totalQuantity}</Td>
                                     <Td py={0} px={3} isNumeric >{invoice.totalAmountBeforeTax}</Td>
                                     <Td py={0} px={3} isNumeric >{invoice.cGstAmount + "-" + invoice.cGstPercentage + "%"}</Td>
