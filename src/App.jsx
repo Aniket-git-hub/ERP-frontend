@@ -20,6 +20,7 @@ import {
   getScrapSell,
   getTransactions
 } from './api/data';
+import InvoiceById from './components/dashboard/invoices/InvoiceById';
 import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';
 import RootLayout from './layouts/RootLayout';
@@ -179,6 +180,7 @@ function App() {
         <Route path="clients" element={<ClientsPage />} />
         <Route path="materials" element={<MaterialsPage />} />
         <Route path="invoices" element={<InvoicePage />} />
+        <Route path="invoice/:invoiceId" element={<InvoiceById />} />
         <Route path="attendance" element={<AttendancePage />} />
         <Route path="employee" element={<EmployeePage />} />
         <Route path="budget" element={<BudgetPage />} />

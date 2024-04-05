@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { useSearchParams } from "react-router-dom";
-import { formatCurrency, getSearchParams } from "../../utils/utils";
+import { formatCurrency, formatDate, getSearchParams } from "../../utils/utils";
 import FilterMenu from "./FilterMenu";
 
 function DataTable({ data, columns, paginationData, changePage, changeLimit, firstFilter, actionIcon, actionButton, onActionButtonClick }) {
@@ -63,13 +63,10 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
         return Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i)
     }
 
-    const formatDate = (date) => {
-        return new Intl.DateTimeFormat('en-US', { dateStyle: "medium" }).format(new Date(date));
-    };
     const getModifiedValue = (item, column) => {
         let value = item[column.name];
         if (column.fallBackName) value = value ? value : item[column.fallBackName]
-        if (column.isDate) value = formatDate(value);
+        if (column.isDate) value = formatDate(value, "dd-mon-yyyy");
         if (column.isTime) value = convertTo12HourFormat(value);
         if (column.isBoolean) value = value ? 'Yes' : 'No';
         if (column.isCurrency) value = formatCurrency(Math.ceil(value), 'en-IN', false, 'INR')

@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { MdRemoveRedEye } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 import { getInvoices } from "../../../api/data";
 import { useData } from "../../../hooks/useData";
 import DataTable from "../../utils/DataTable";
@@ -40,6 +41,7 @@ function ViewInvoices() {
         { label: ' Amount', name: "totalAmountAfterTax", isNumeric: true, fallBackName: "totalAmountBeforeTax", isCurrency: true, },
     ]
 
+    const navigate = useNavigate()
     return (
         <Box >
 
@@ -51,8 +53,7 @@ function ViewInvoices() {
                 changeLimit={handlePageChange}
                 actionButton={true}
                 actionIcon={<MdRemoveRedEye />}
-                actionProperty={"id"}
-                onActionButtonClick={(id) => alert(id)}
+                onActionButtonClick={(invoice) => navigate("/invoice/" + invoice.id)}
             />
 
         </Box>
