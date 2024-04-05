@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useSearchParams } from 'react-router-dom';
 import {
   getAdvances,
   getAggregateInvoiceData,
   getAggregateJobData,
+  getAllDepartment,
+  getAllDesignation,
+  getAllDesignationByDepartment,
   getBudgets,
   getClients,
   getEmployeeOptions,
@@ -37,6 +40,9 @@ import SettingsPage from './pages/dashboard/SettingsPage';
 
 function App() {
   const { user, setUser, isAuthenticated, verifyOTP } = useAuth();
+
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const {
     setExpenseCategories,
     setExpenses,
@@ -56,7 +62,10 @@ function App() {
     setScrapSell,
     setEmployeeOptions,
     setAdvances,
-    setOperations
+    setOperations,
+    setDepartment,
+    setDesignation,
+    setDesignationByDepartment
   } = useData();
 
   useEffect(() => {
@@ -66,7 +75,6 @@ function App() {
           const currentDate = new Date();
           const currentYear = currentDate.getFullYear();
           const currentMonth = currentDate.getMonth() + 1;
-
           const previousMonth = currentMonth === 1 ? 12 : currentMonth - 1;
           const previousYear = currentMonth === 1 ? currentYear - 1 : currentYear;
 
@@ -90,11 +98,14 @@ function App() {
             employeeOptions,
             advances,
             operations,
+            designation,
+            department,
+            designationByDepartment
           ] = await Promise.all([
             getMaterials(),
             getClients(),
-            getJobs({ page: 1, limit: 10 }),
-            getInvoices({ page: 1, limit: 10 }),
+            getJobs({ page: searchParams.get("page") || 1, limit: searchParams.get("limit") || 10 }),
+            getInvoices({ page: searchParams.get("page") || 1, limit: searchParams.get("limit") || 10 }),
             getAggregateJobData('monthly', currentYear.toString(), currentMonth.toString()),
             getAggregateInvoiceData('monthly', currentYear.toString(), currentMonth.toString()),
             getAggregateJobData('monthly', previousYear.toString(), previousMonth.toString()),
@@ -110,6 +121,9 @@ function App() {
             getEmployeeOptions(),
             getAdvances(),
             getOperations(),
+            getAllDesignation(),
+            getAllDepartment(),
+            getAllDesignationByDepartment()
           ]);
 
           const { data: { materials } } = materialsResponse;
@@ -119,7 +133,7 @@ function App() {
           setMaterials(materials);
           setClients(clientsResponse.data.items);
           setJobs(jobsData);
-          setInvoices(invoiceData.items);
+          setInvoices(invoiceData);
           setCurrentMonthJobAggregate(currentMonthJobAggregate.data)
           setCurrentMonthInvoiceAggregate(currentMonthInvoiceAggregate.data);
           setPreviousMonthJobAggregate(previousMonthJobAggregate.data)
@@ -135,9 +149,12 @@ function App() {
           setEmployeeOptions(employeeOptions.data.employees)
           setAdvances(advances.data.advances)
           setOperations(operations.data.operations)
+          setDesignation(designation.data.designations)
+          setDepartment(department.data.departments)
+          setDesignationByDepartment(designationByDepartment.data.designations)
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
 

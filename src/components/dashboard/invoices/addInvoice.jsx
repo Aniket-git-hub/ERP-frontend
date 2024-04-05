@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Center, Checkbox, Container, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Textarea, VStack } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { createInvoice, getJobs } from "../../../api/data"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
@@ -10,9 +10,11 @@ function AddInvoice() {
     const initialState = { clientId: -1, invoiceDate: '', cGst: '', iGst: '', sGst: '', notes: '', totalQuantity: '', totalAmount: '', isPaid: 1 }
     const { clientOptions } = useData()
     const [taxed, setTaxed] = useState(false)
+    const clientInputRef = useRef()
 
     const submit = async (values) => {
         try {
+            console.log(values)
             const response = await createInvoice({
                 ...values,
                 // jobIds: selectedItems,
@@ -21,6 +23,8 @@ function AddInvoice() {
             return { title: "Add Invoice", message: response.data.message }
         } catch (error) {
             throw error
+        } finally {
+            clientInputRef.current.focus()
         }
     }
 
@@ -73,7 +77,9 @@ function AddInvoice() {
                             colorScheme="purple"
                             tagVariant={"solid"}
                             options={clientOptions}
-                            value={clientOptions.filter((c) => c.value === values.clientId)[0]}
+                            value={clientOptions.filter((c) => c.value === values.clientId)[0] || ''}
+                            ref={clientInputRef}
+                            autoFocus={true}
                         />
                         <FormErrorMessage>
                             {errors.clientId}
@@ -88,7 +94,7 @@ function AddInvoice() {
                 </HStack>
 
                 <HStack >
-                    <FormControl isInvalid={errors.totalQuantity} isRequired mb=".8rem">
+                    <FormControl isInvalid={errors.totalQuantity} mb=".8rem">
                         <FormLabel>Total Quantity</FormLabel>
                         <InputGroup>
                             <Input type='number' name="totalQuantity" textAlign={"right"} value={values.totalQuantity} onChange={handleChange()} />

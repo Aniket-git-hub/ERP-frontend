@@ -14,6 +14,19 @@ function ViewEmployees() {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const flattenedEmployee = (item) => {
+        if (!item || (item && item.length < 1)) return []
+        return item.map(i => {
+            const flattenedItem = { ...i };
+            if (i.designation && typeof i.designation === 'object') {
+                flattenedItem.designation = i.designation.name;
+            }
+            if (i.department && typeof i.department === 'object') {
+                flattenedItem.department = i.department.name;
+            }
+            return flattenedItem;
+        })
+    }
 
     const employeeColumns = [
         { label: "First Name", name: "firstName" },
@@ -100,7 +113,7 @@ function ViewEmployees() {
             <Box p={4}>
 
                 <DataTable
-                    data={employees}
+                    data={flattenedEmployee(employees)}
                     columns={employeeColumns}
                     actionButton={true}
                     actionIcon={<EditIcon />}

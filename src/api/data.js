@@ -114,7 +114,7 @@ export const getJobs = async ({ page, limit, filters }) => {
 
     return handleRequest(endpoint, {}, 'GET');
 };
-export const getJobsByIds = async (jobIds) => handleRequest(`/job/ids?jobIds=${jobIds.join(',')}`, {}, 'GET')
+export const getJobsByIds = async (jobIds) => handleRequest(`/job/ids?jobIds=${jobIds?.join(',')}`, {}, 'GET')
 export const deleteJob = async (jobId) => handleRequest(`/job/${jobId}`, {}, 'DELETE')
 export const updateJob = async (jobId, data) => handleRequest(`/job/${jobId}`, data, 'PUT')
 export const addJob = async (data) => handleRequest('/job/', data, 'POST')
@@ -125,7 +125,17 @@ export const deleteOperation = async (id) => handleRequest(`/job/operations/${id
 
 
 // Invoice methods
-export const getInvoices = async (data) => handleRequest('/invoice', {}, 'GET')
+export const getInvoices = async ({ page, limit, filters }) => {
+    let endpoint = `/invoice?page=${page}&limit=${limit}`;
+
+    if (filters) {
+        Object.keys(filters).forEach((key) => {
+            endpoint += `&${key}=${encodeURIComponent(filters[key])}`;
+        });
+    }
+
+    return handleRequest(endpoint, {}, 'GET');
+};
 export const createInvoice = async (data) => handleRequest('/invoice', data, 'POST')
 export const getInvoicePDF = async (invoiceId) => handleRequest(`/invoice/generatePdf/${invoiceId}`, { responseType: 'blob' }, 'GET')
 export const getAggregateInvoiceData = async (type, year, month) => handleRequest(`/invoice/aggregate?type=${type}&month=${month}&year=${year}`, {}, 'GET')
@@ -136,6 +146,19 @@ export const getEmployees = async () => handleRequest(`/employee`, {}, 'GET')
 export const getEmployeeOptions = async () => handleRequest(`/employee/options`, {}, 'GET')
 export const updateEmployee = async (data, employeeId) => handleRequest(`/employee/${employeeId}`, data, 'PUT')
 export const deleteEmployee = async (employeeId) => handleRequest(`/employee/${employeeId}`, {}, 'DELETE')
+// designation
+export const addDesignation = async (data) => handleRequest(`/employee/designation`, data, 'POST')
+export const getDesignation = async (designationId) => handleRequest(`/employee/designation/${designationId}`, {}, 'GET')
+export const getAllDesignation = async () => handleRequest(`/employee/designation`, {}, 'GET')
+export const getAllDesignationByDepartment = async () => handleRequest(`/employee/designation?grouped=true`, {}, 'GET')
+export const updateDesignation = async (data, designationId) => handleRequest(`/employee/designation/${designationId}`, data, 'PUT')
+export const deleteDesignation = async (designationId) => handleRequest(`/employee/designation/${designationId}`, {}, 'DELETE')
+// department
+export const addDepartment = async (data) => handleRequest(`/employee/department/`, data, 'POST')
+export const getDepartment = async (departmentId) => handleRequest(`/employee/department/${departmentId}`, {}, 'GET')
+export const getAllDepartment = async () => handleRequest(`/employee/department/`, {}, 'GET')
+export const updateDepartment = async (data, departmentId) => handleRequest(`/employee/department/${departmentId}`, data, 'PUT')
+export const deleteDepartment = async (departmentId) => handleRequest(`/employee/department/${departmentId}`, {}, 'DELETE')
 
 // employee methods 
 export const addEmployeeAttendance = async (data) => handleRequest(`/employee`, data, 'POST')

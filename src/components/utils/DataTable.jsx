@@ -5,23 +5,25 @@ import {
 import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
-import { convertTo12HourFormat } from "../../utils/utils";
+import { useSearchParams } from "react-router-dom";
+import { formatCurrency, getSearchParams } from "../../utils/utils";
 import FilterMenu from "./FilterMenu";
 
 function DataTable({ data, columns, paginationData, changePage, changeLimit, firstFilter, actionIcon, actionButton, onActionButtonClick }) {
 
     const { totalItems, currentPage, totalPages, hasNextPage, limit, countInCurrentPage } = paginationData || {}
 
-    const formatDate = (date) => {
-        return new Intl.DateTimeFormat('en-US', { dateStyle: "medium" }).format(new Date(date));
-    };
+    const [searchParams, setSearchParams] = useSearchParams()
+
 
     const handleChangePageClick = (page) => {
         changePage(page, limit)
+        setSearchParams({ ...getSearchParams(searchParams), page })
     }
 
     const handleChangeLimit = (option) => {
         changeLimit(currentPage, option.value)
+        setSearchParams({ ...getSearchParams(searchParams), limit: option.value })
     }
 
     const [searchTerm, setSearchTerm] = useState('')
@@ -61,8 +63,22 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
         return Array.from(Array((endPage + 1) - startPage).keys()).map(i => startPage + i)
     }
 
+    const formatDate = (date) => {
+        return new Intl.DateTimeFormat('en-US', { dateStyle: "medium" }).format(new Date(date));
+    };
+    const getModifiedValue = (item, column) => {
+        let value = item[column.name];
+        if (column.fallBackName) value = value ? value : item[column.fallBackName]
+        if (column.isDate) value = formatDate(value);
+        if (column.isTime) value = convertTo12HourFormat(value);
+        if (column.isBoolean) value = value ? 'Yes' : 'No';
+        if (column.isCurrency) value = formatCurrency(Math.ceil(value), 'en-IN', false, 'INR')
+        return value || '-';
+    }
+
     return (
         <TableContainer>
+
             <Flex my={2} gap={4}>
                 <Box flex={2} hidden={!paginationData || !paginationData.limit}>
                     <FormControl w={"fit-content"} >
@@ -93,6 +109,7 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
                     </HStack>
                 </Flex>
             </Flex>
+
             <Table variant={"simple"} size={'sm'}>
                 <Thead >
                     <Tr >
@@ -110,13 +127,12 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
                 </Thead>
                 <Tbody>
                     {data.length > 0 ? data.map((item, i) => (
-                        <Tr key={i}>
+                        <Tr key={item.id}>
                             <Td whiteSpace="normal" p={3}>{i + 1}</Td>
                             {
-                                columns.map((column, index) => {
-                                    const value = column.isDate ? formatDate(item[column.name]) : column.isBoolean ? item[column.name] ? 'Yes' : 'No' : column.isTime ? convertTo12HourFormat(item[column.name]) : item[column.name];
-                                    return <Td isNumeric={column.isNumeric} whiteSpace="normal" p={2} key={index} >{value ? value : '-'}</Td>;
-                                })
+                                columns.map((column, index) => (
+                                    <Td isNumeric={column.isNumeric} whiteSpace="normal" p={2} key={index} >{getModifiedValue(item, column)} </Td>
+                                ))
                             }
                             {
                                 actionButton &&
@@ -142,6 +158,7 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
                     }
                 </Tbody>
             </Table>
+
             {
                 (paginationData && paginationData.totalItems) &&
                 (

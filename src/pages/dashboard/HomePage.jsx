@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FaFileInvoiceDollar, FaHashtag, FaRupeeSign, FaWrench } from "react-icons/fa";
 import StatCard from "../../components/utils/StartCard";
 import { useData } from "../../hooks/useData";
+import { formatCurrency } from "../../utils/utils";
 
 function HomePage() {
     const {
@@ -40,11 +41,11 @@ function HomePage() {
     return (
         <Box p={5}>
             <Text fontSize={'xs'} fontWeight={'bold'} color={'gray.600'} textTransform={'uppercase'}>
-                Febuary, 2024
+                April, 2024
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {cards.map((card, index) => (
-                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={`${index}-${card.title}`} />
+                    <StatCard title={card.title} icon={card.icon} data={card.title === "Total Invoice Amount" ? formatCurrency(Math.ceil(card.data), 'en-IN', false, 'INR') : Math.ceil(card.data)} key={`${index}-${card.title}`} />
                 ))}
             </Flex>
             <Text fontSize={'xs'} fontWeight={'bold'} color={'gray.600'} textTransform={'uppercase'}>
@@ -52,7 +53,7 @@ function HomePage() {
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {previousMonthCards.map((card, index) => (
-                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={`${index}-${card.title}`} />
+                    <StatCard title={card.title} icon={card.icon} data={card.title === "Total Invoice Amount" ? formatCurrency(Math.ceil(card.data), 'en-IN', false, 'INR') : Math.ceil(card.data)} key={`${index}-${card.title}`} />
                 ))}
             </Flex>
             <Text fontSize={'xs'} fontWeight={'bold'} color={'gray.600'} textTransform={'uppercase'}>
@@ -60,7 +61,7 @@ function HomePage() {
             </Text>
             <Flex w={"100%"} gap={8} py={5} justifyContent={"space-between"} flexWrap={'wrap'}>
                 {currentYearCard.map((card, index) => (
-                    <StatCard title={card.title} icon={card.icon} data={Math.ceil(card.data)} key={`${index}-${card.title}`} />
+                    <StatCard title={card.title} icon={card.icon} data={card.title === "Total Invoice Amount" ? formatCurrency(Math.ceil(card.data), 'en-IN', false, 'INR') : Math.ceil(card.data)} key={`${index}-${card.title}`} />
                 ))}
             </Flex>
         </Box>

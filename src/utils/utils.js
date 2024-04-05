@@ -86,3 +86,20 @@ function mapToSelectedItemKey(key) {
 
     return keyMappings[key] || key;
 }
+
+export function getSearchParams(searchParams) {
+    const entries = Array.from(searchParams.entries());
+    let value = entries.reduce((acc, a) => ((acc[a[0]] = acc[a[0]] || []).push(a[1]), acc), {});
+    return value
+}
+
+export function removeSearchParams(searchParams, key, value) {
+    const existingParams = getSearchParams(searchParams);
+    if (existingParams[key]) {
+        existingParams[key] = existingParams[key].filter(v => v !== value);
+    }
+    if (existingParams[key].length === 0) {
+        delete existingParams[key];
+    }
+    return existingParams;
+}

@@ -1,4 +1,4 @@
-import { Button, Center, Checkbox, Container, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Table, TableContainer, Tbody, Td, Text, Textarea, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
+import { Button, ButtonGroup, Center, Checkbox, Container, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Table, TableContainer, Tbody, Td, Text, Textarea, Th, Thead, Tr, VStack, useDisclosure } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useEffect, useState } from "react"
 import { createInvoice, getJobs } from "../../../api/data"
@@ -10,17 +10,20 @@ function CreateInvoice() {
     const initialState = { clientId: -1, invoiceDate: '', cGst: '', iGst: '', sGst: '', notes: '' }
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { jobs, clientOptions, materials } = useData()
+    const [taxed, setTaxed] = useState(false)
+
 
     const submit = async (values) => {
         try {
             const response = await createInvoice({
                 ...values,
                 jobIds: selectedItems,
+                invoiceType: taxed ? 'taxed' : 'simple',
             })
 
             return { title: "Create Invoice", message: response.data.message }
         } catch (error) {
-            console.log(error)
+            throw error
         }
     }
 
@@ -82,6 +85,12 @@ function CreateInvoice() {
     return (
         <Container>
             <form onSubmit={handleSubmit}>
+                <Heading size={"md"} mb={4}>Create Invoice</Heading>
+
+                <ButtonGroup variant={"outline"} isAttached w={"100%"} mt={2} mb={3}>
+                    <Button w={"100%"} colorScheme={taxed ? "purple" : "gray"} variant={taxed ? 'solid' : 'outline'} onClick={() => setTaxed(true)}>Tax</Button>
+                    <Button w={"100%"} colorScheme={!taxed ? "purple" : "gray"} variant={!taxed ? 'solid' : 'outline'} onClick={() => setTaxed(false)}>Simple</Button>
+                </ButtonGroup>
 
                 <HStack>
                     <FormControl isInvalid={errors.clientId} isRequired mb=".8rem">
@@ -111,7 +120,7 @@ function CreateInvoice() {
                     <FormErrorMessage>No jobs selected</FormErrorMessage>
                 </FormControl>
 
-                <HStack>
+                <HStack hidden={!taxed}>
                     <FormControl isInvalid={errors.cGst} isRequired mb=".8rem">
                         <FormLabel>CGST</FormLabel>
                         <InputGroup>
@@ -193,8 +202,8 @@ function CreateInvoice() {
                                                 </Td>
                                                 <Td whiteSpace="normal" p={3}>{job.drawingNumber}</Td>
                                                 <Td whiteSpace="normal" isNumeric p={3}>{job.qty}</Td>
-                                                <Td whiteSpace="normal" isNumeric p={3}>{job.rate}</Td>
-                                                <Td whiteSpace="normal" isNumeric p={3}>{job.rate * job.qty}</Td>
+                                                <Td whiteSpace="normal" isNumeric p={3}>{job?.operation_costs.reduce((acc, curr) => acc + parseInt(curr.cost), 0)}</Td>
+                                                <Td whiteSpace="normal" isNumeric p={3}>{job.total}</Td>
                                             </Tr>
                                         ))
                                             :

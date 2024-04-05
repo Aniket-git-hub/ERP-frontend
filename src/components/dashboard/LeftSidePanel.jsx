@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FiLogOut, FiMenu } from "react-icons/fi";
-import { GiExpense, GiMetalBar, GiSpanner } from "react-icons/gi";
+import { GiExpense, GiMetalBar, GiSpanner, GiTrashCan } from "react-icons/gi";
 import { GrUserWorker } from "react-icons/gr";
 import { HiOutlineRectangleGroup } from "react-icons/hi2";
 import { IoListSharp } from "react-icons/io5";
@@ -34,7 +34,7 @@ function LeftSidePanel() {
         { name: "Attendance", icon: IoListSharp, path: "/attendance" },
         { name: "Employees", icon: GrUserWorker, path: "/employee" },
         { name: "Budget", icon: GiExpense, path: "/budget" },
-        { name: "Scrap", icon: GiExpense, path: "/scrap" },
+        { name: "Scrap", icon: GiTrashCan, path: "/scrap" },
     ];
 
     const { remove, user } = useAuth()

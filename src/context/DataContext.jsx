@@ -20,6 +20,9 @@ export const DataProvider = ({ children }) => {
     const [currentYearInvoiceAggregate, setCurrentYearInvoiceAggregate] = useState({})
     const [employees, setEmployees] = useState([])
     const [employeeOptions, setEmployeeOptions] = useState([])
+    const [department, setDepartment] = useState([])
+    const [designation, setDesignation] = useState([])
+    const [designationByDepartment, setDesignationByDepartment] = useState([])
     const [expenseCategories, setExpenseCategories] = useState([])
     const [expenses, setExpenses] = useState([])
     const [budgets, setBudgets] = useState([])
@@ -70,6 +73,12 @@ export const DataProvider = ({ children }) => {
                 setCurrentYearInvoiceAggregate,
                 employees,
                 setEmployees,
+                designation,
+                setDesignation,
+                designationByDepartment,
+                setDesignationByDepartment,
+                department,
+                setDepartment,
                 expenseCategories,
                 setExpenseCategories,
                 expenses,

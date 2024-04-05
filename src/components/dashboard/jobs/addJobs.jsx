@@ -10,7 +10,7 @@ import { useFormValidation } from "../../../hooks/useFormValidation";
 function AddJobs() {
     const drawingNumberInputRef = useRef()
     const { clients, materials, operations } = useData()
-    const [initialState, setInitialState] = useState({ drawingNumber: '', quantity: '', clientId: -1, materialId: -1, date: '', size: '', description: '', })
+    const [initialState, setInitialState] = useState({ drawingNumber: '', quantity: '', clientId: '', materialId: '', date: '', size: '', description: '', })
     const [defaultValues, setDefaultValues] = useState({ clientId: '', materialId: '', date: '', description: '' })
 
     useEffect(() => {

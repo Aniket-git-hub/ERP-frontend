@@ -2,45 +2,30 @@ import {
     Box,
     Button,
     Container,
-    Flex,
     FormControl,
     FormErrorMessage,
     FormLabel,
+    HStack,
+    Heading,
     Input,
-    Step,
-    StepDescription,
-    StepIcon,
-    StepIndicator,
-    StepNumber,
-    StepSeparator,
-    StepStatus,
-    StepTitle,
-    Stepper,
-    Textarea,
-    useSteps
+    InputGroup,
+    InputRightAddon,
+    Textarea
 } from "@chakra-ui/react"
+import { Select } from "chakra-react-select"
 import { addEmployee } from "../../../api/data"
+import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 
 function AddEmployee() {
-    const steps = [
-        { title: 'First', description: 'Personal Info' },
-        { title: 'Second', description: 'Employment Info' },
-    ]
+    const { department, designation } = useData()
 
-    const { activeStep, goToNext, goToPrevious } = useSteps({
-        index: 0,
-        count: steps.length,
-    })
-
-    const initialState = { firstName: '', lastName: '', email: '', mobileNumber: '', address: '', department: '', designation: '', salary: '', dateOfJoining: '' }
+    const initialState = { firstName: '', lastName: '', email: '', mobileNumber: '', address: '', departmentId: 0, designationId: 0, salary: '', dateOfJoining: '' }
     const submit = async (values) => {
         console.log(values)
         try {
             const response = await addEmployee(values)
-
-            goToNext()
-            return { title: 'AddEmployee', message: response.data.message }
+            return { title: 'Add Employee', message: response.data.message }
         } catch (error) {
             throw error
         }
@@ -49,116 +34,102 @@ function AddEmployee() {
 
 
     return (
-        <Container p={5} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'} borderRadius={'15px'}>
-            <Flex gap={10}>
-                <Stepper flex={1} size='lg' index={activeStep} orientation="vertical" minH={"500px"}>
-                    {steps.map((step, index) => (
-                        <Step key={index}>
-                            <StepIndicator>
-                                <StepStatus
-                                    complete={<StepIcon />}
-                                    incomplete={<StepNumber />}
-                                    active={<StepNumber />}
-                                />
-                            </StepIndicator>
+        <Container p={5} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'} borderRadius={'8px'}>
+            <Box flex={2} w={'100%'} mH={"100%"}>
+                <form onSubmit={handleSubmit} style={{ height: "100%" }} >
+                    <Heading color={"gray.700"} mb={5} size={"md"} >Add Employee</Heading>
+                    <HStack my={2}>
+                        <FormControl isInvalid={errors.firstName} isRequired>
+                            <FormLabel>First Name</FormLabel>
+                            <Input type="text" name="firstName" value={values.firstName} onChange={handleChange()} />
+                            <FormErrorMessage>
+                                {errors.firstName}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={errors.lastName} isRequired>
+                            <FormLabel>Last Name</FormLabel>
+                            <Input type="text" name="lastName" value={values.lastName} onChange={handleChange()} />
+                            <FormErrorMessage>
+                                {errors.lastName}
+                            </FormErrorMessage>
+                        </FormControl>
+                    </HStack>
 
-                            <Box flexShrink='0'>
-                                <StepTitle>{step.title}</StepTitle>
-                                <StepDescription>{step.description}</StepDescription>
-                            </Box>
+                    <HStack my={2}>
+                        <FormControl isInvalid={errors.email} isRequired>
+                            <FormLabel>Email</FormLabel>
+                            <Input type="email" name="email" value={values.email} onChange={handleChange()} />
+                            <FormErrorMessage>
+                                {errors.email}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={errors.mobileNumber} isRequired>
+                            <FormLabel>Mobile Number</FormLabel>
+                            <Input type="number" name="mobileNumber" value={values.mobileNumber} onChange={handleChange()} />
+                            <FormErrorMessage>
+                                {errors.mobileNumber}
+                            </FormErrorMessage>
+                        </FormControl>
+                    </HStack>
 
-                            <StepSeparator />
-                        </Step>
-                    ))}
-                </Stepper>
-                <Box flex={2} w={'100%'} mH={"100%"}>
-                    <form onSubmit={handleSubmit} style={{ height: "100%" }} >
+                    <FormControl isInvalid={errors.address} isRequired>
+                        <FormLabel>Address</FormLabel>
+                        <Textarea name="address" value={values.address} onChange={handleChange()} ></Textarea>
+                        <FormErrorMessage>
+                            {errors.address}
+                        </FormErrorMessage>
+                    </FormControl>
 
+                    <HStack my={2}>
+                        <FormControl isInvalid={errors.departmentId} isRequired>
+                            <FormLabel>Department</FormLabel>
+                            <Select
+                                options={department}
+                                onChange={handleChange("departmentId")}
+                                value={department.filter(e => e.value === values.departmentId)[0] || ''}
+                            />
+                            <FormErrorMessage>
+                                {errors.departmentId}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={errors.designationId} isRequired>
+                            <FormLabel>Designation</FormLabel>
+                            <Select
+                                options={designation}
+                                onChange={handleChange("designationId")}
+                                value={designation.filter(e => e.value === values.designationId)[0] || ''}
+                            />
+                            <FormErrorMessage>
+                                {errors.designationId}
+                            </FormErrorMessage>
+                        </FormControl>
+                    </HStack>
 
-                        {
-                            activeStep === 0 ?
-                                <Flex minH={"100%"} direction={"column"} justify={"space-between"} w={"100%"}>
-                                    <FormControl isInvalid={errors.firstName} isRequired>
-                                        <FormLabel>First Name</FormLabel>
-                                        <Input type="text" name="firstName" value={values.firstName} onChange={handleChange()} />
-                                        <FormErrorMessage>
-                                            {errors.firstName}
-                                        </FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl isInvalid={errors.lastName} isRequired>
-                                        <FormLabel>Last Name</FormLabel>
-                                        <Input type="text" name="lastName" value={values.lastName} onChange={handleChange()} />
-                                        <FormErrorMessage>
-                                            {errors.lastName}
-                                        </FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl isInvalid={errors.email} isRequired>
-                                        <FormLabel>Email</FormLabel>
-                                        <Input type="email" name="email" value={values.email} onChange={handleChange()} />
-                                        <FormErrorMessage>
-                                            {errors.email}
-                                        </FormErrorMessage>
-                                    </FormControl>
-                                    <FormControl isInvalid={errors.mobileNumber} isRequired>
-                                        <FormLabel>Mobile Number</FormLabel>
-                                        <Input type="number" name="mobileNumber" value={values.mobileNumber} onChange={handleChange()} />
-                                        <FormErrorMessage>
-                                            {errors.mobileNumber}
-                                        </FormErrorMessage>
-                                    </FormControl>
+                    <HStack my={2}>
+                        <FormControl isInvalid={errors.salary} isRequired>
+                            <FormLabel>Salary</FormLabel>
+                            <InputGroup>
+                                <Input type="number" name="salary" textAlign={"right"} value={values.salary} onChange={handleChange()} />
+                                <InputRightAddon children={"/8 hrs (in Rs)"} />
+                            </InputGroup>
+                            <FormErrorMessage>
+                                {errors.salary}
+                            </FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={errors.dateOfJoining} isRequired>
+                            <FormLabel>Date Of Joining</FormLabel>
+                            <Input type="date" name="dateOfJoining" value={values.dateOfJoining} onChange={handleChange()} />
+                            <FormErrorMessage>
+                                {errors.dateOfJoining}
+                            </FormErrorMessage>
+                        </FormControl>
+                    </HStack>
 
-                                    <FormControl isInvalid={errors.address} isRequired>
-                                        <FormLabel>Address</FormLabel>
-                                        <Textarea name="address" value={values.address} onChange={handleChange()} ></Textarea>
-                                        <FormErrorMessage>
-                                            {errors.address}
-                                        </FormErrorMessage>
-                                    </FormControl>
-                                    <Flex w={"100%"} mt={10} justifyContent={"end"}>
-                                        <Button colorScheme="purple" onClick={goToNext} isDisabled={errors.firstName || errors.lastName || errors.mobileNumber || errors.email || errors.address} >Next</Button>
-                                    </Flex>
-                                </Flex>
-                                :
-                                <Flex minH={"100%"} direction={"column"} justify={"space-between"} w={"100%"} >
-                                    <Box>
-                                        <FormControl isInvalid={errors.department} isRequired>
-                                            <FormLabel>Department</FormLabel>
-                                            <Input type="text" name="department" value={values.department} onChange={handleChange()} />
-                                            <FormErrorMessage>
-                                                {errors.department}
-                                            </FormErrorMessage>
-                                        </FormControl>
-                                        <FormControl isInvalid={errors.designation} isRequired>
-                                            <FormLabel>Designation</FormLabel>
-                                            <Input type="text" name="designation" value={values.designation} onChange={handleChange()} />
-                                            <FormErrorMessage>
-                                                {errors.designation}
-                                            </FormErrorMessage>
-                                        </FormControl>
-                                        <FormControl isInvalid={errors.salary} isRequired>
-                                            <FormLabel>Salary</FormLabel>
-                                            <Input type="text" name="salary" value={values.salary} onChange={handleChange()} />
-                                            <FormErrorMessage>
-                                                {errors.salary}
-                                            </FormErrorMessage>
-                                        </FormControl>
-                                        <FormControl isInvalid={errors.dateOfJoining} isRequired>
-                                            <FormLabel>Date Of Joining</FormLabel>
-                                            <Input type="date" name="dateOfJoining" value={values.dateOfJoining} onChange={handleChange()} />
-                                            <FormErrorMessage>
-                                                {errors.dateOfJoining}
-                                            </FormErrorMessage>
-                                        </FormControl>
-                                    </Box>
-                                    <Flex w={"100%"} mt={10} justifyContent={"space-between"}>
-                                        <Button colorScheme="purple" variant={'outline'} onClick={goToPrevious} >Back</Button>
-                                        <Button colorScheme="purple" type="submit" >Submit</Button>
-                                    </Flex>
-                                </Flex>
-                        }
-                    </form>
-                </Box>
-            </Flex>
+                    <FormControl w={"100%"} mt={5} mb={2}>
+                        <Button w={"100%"} colorScheme="purple" type="submit" isDisabled={isSubmitting} isLoading={isSubmitting} loadingText="Adding..." >Add Employee</Button>
+                    </FormControl>
+                </form>
+            </Box>
         </Container >
     )
 }

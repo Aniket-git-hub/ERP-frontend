@@ -18,7 +18,7 @@ function CustomAlertDialog({ button, buttonText, alertTitle, alertText, confirmB
             >
                 <AlertDialogOverlay>
                     <AlertDialogContent>
-                        <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                        <AlertDialogHeader fontSize='lg' fontWeight='semibold'>
                             {alertTitle}
                         </AlertDialogHeader>
 

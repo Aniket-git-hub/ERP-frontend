@@ -1,9 +1,10 @@
 import { Box, Heading } from "@chakra-ui/react"
+import GeneralSettings from "../../components/dashboard/settings/generalSettings"
 import TabsComponent from "../../components/utils/TabsComponent"
 
 function SettingsPage() {
     const tabs = [
-        { title: 'General', component: "" },
+        { title: 'General', component: <GeneralSettings /> },
         { title: 'Account', component: "" },
     ]
     return (

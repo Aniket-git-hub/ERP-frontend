@@ -80,10 +80,10 @@ function OperationsPage() {
     }
 
     return (
-        <Box p={5}>
+        <Box px={5}>
             <Flex w={"100%"} gap={10}>
-                <Box h={'fit-content'} flex={1} pt={5} pb={10} px={5} boxShadow={"rgba(149, 157, 165, 0.2) 0px 8px 24px"} borderRadius={'15px'}>
-                    <Heading mb={5} size={'md'} color={'gray.700'}>Add Operations</Heading>
+                <Box minW={"30%"} h={'fit-content'} flex={1} pt={5} pb={10} px={5} boxShadow={"rgba(149, 157, 165, 0.2) 0px 8px 24px"} borderRadius={'15px'}>
+                    <Heading fontWeight={"semibold"} mb={5} size={'md'} color={'gray.700'}>Add Operations</Heading>
                     <form onSubmit={handleSubmit}>
                         <FormControl isRequired mt={2} isInvalid={errors.name}>
                             <FormLabel>Operation Name</FormLabel>
@@ -98,7 +98,7 @@ function OperationsPage() {
                     </form>
                 </Box>
                 <Box flex={3}>
-                    <Heading m={3} color={"gray.700"} size={"md"}>All Operations</Heading>
+                    <Heading fontWeight={"semibold"} m={3} color={"gray.700"} size={"md"}>All Operations</Heading>
                     <Flex wrap={"wrap"}>
                         {
                             operations && operations.map((expenseCategory, index) => (

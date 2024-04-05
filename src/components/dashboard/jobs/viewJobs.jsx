@@ -56,7 +56,7 @@ function ViewJobs() {
         { label: 'Description', name: 'description' },
         { label: 'Size', name: 'size' },
         { label: 'Material', name: 'material' },
-        { label: 'Billed', name: 'InvoiceId', isBoolean: true },
+        { label: 'Billed', name: 'invoiceId', isBoolean: true },
         { label: 'Qty', name: 'qty', isNumeric: true },
         { label: 'Rate', name: 'rate', isNumeric: true },
         { label: 'Total', name: 'total', isNumeric: true },
