@@ -1,6 +1,7 @@
 import { AddIcon } from "@chakra-ui/icons";
 import {
     Box, Button,
+    ButtonGroup,
     Card,
     CardBody,
     Flex,
@@ -9,8 +10,11 @@ import {
     HStack, Heading, Icon, Input
 } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
+import { useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
+import { addAttendance } from "../../../api/endpoints/employee/attendances";
 import { useData } from "../../../hooks/useData";
+import { useFormValidation } from "../../../hooks/useFormValidation";
 import { currentDate, formatCurrency } from "../../../utils/utils";
 import StatCard from "../../utils/StartCard";
 
@@ -22,7 +26,25 @@ function AttendanceOverview() {
         { title: 'Lowest', data: 125000, icon: <FaRupeeSign /> },
         { title: 'Advances', data: 85000, icon: <FaRupeeSign /> },
     ]
-    const { employees } = useData()
+
+    const { employeeOptions } = useData()
+
+    const [punchTypeIn, setPunchTypeIn] = useState(new Date().getHours() < 12);
+
+    const initialState = { employeeId: '', checkTimestamp: '' }
+    const submit = async (values) => {
+        try {
+            const { employeeId } = values
+            const response = await addAttendance(employeeId, {
+                ...values,
+                punchType: punchTypeIn ? "in" : "out"
+            })
+            return { title: "Add Attendance", message: response.data.message }
+        } catch (error) {
+            throw error;
+        }
+    }
+    const { values, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(initialState, submit)
 
     return (
         <Box>
@@ -50,52 +72,32 @@ function AttendanceOverview() {
             </Flex>
 
             <Flex w={'100%'} gap={10} mt={10}>
-                <Card w={'100%'}>
+                <Card w={'40%'}>
                     <CardBody>
-                        <Heading size={'md'} color={'gray.700'}>Add In</Heading>
-                        <form>
-                            <FormControl isRequired my={2}>
-                                <FormLabel>Date</FormLabel>
-                                <Input type="date" />
-                            </FormControl>
+                        <form onSubmit={handleSubmit}>
+                            <Heading size={'md'} color={'gray.700'}>Add Attendance</Heading>
+
+                            <ButtonGroup mt={6} variant={"outline"} isAttached w={"100%"} mb={3}>
+                                <Button w={"100%"} colorScheme={punchTypeIn ? "purple" : "gray"} variant={punchTypeIn ? 'solid' : 'outline'} onClick={() => setPunchTypeIn(true)}>IN</Button>
+                                <Button w={"100%"} colorScheme={!punchTypeIn ? "purple" : "gray"} variant={!punchTypeIn ? 'solid' : 'outline'} onClick={() => setPunchTypeIn(false)}>OUT</Button>
+                            </ButtonGroup>
+
                             <FormControl isRequired my={2}>
                                 <FormLabel>Select Employee</FormLabel>
                                 <Select
-                                    options={[]}
-
+                                    options={employeeOptions || []}
+                                    onChange={handleChange("employeeId")}
+                                    value={employeeOptions.filter(e => e.value === values.employeeId)[0] || ''}
                                 />
                             </FormControl>
-                            <FormControl isRequired my={2}>
-                                <FormLabel>In Time</FormLabel>
-                                <Input type="time" />
-                            </FormControl>
-                            <FormControl my={4}>
-                                <Button type="submit" w={"100%"} colorScheme="purple">ADD IN TIME</Button>
-                            </FormControl>
-                        </form>
-                    </CardBody>
-                </Card>
-                <Card w={'100%'}>
-                    <CardBody>
-                        <Heading size={'md'} color={'gray.700'}>Add Out</Heading>
-                        <form>
+
                             <FormControl isRequired my={2}>
                                 <FormLabel>Date</FormLabel>
-                                <Input type="date" />
+                                <Input type="datetime-local" name="checkTimestamp" value={values.checkTimestamp} onChange={handleChange()} />
                             </FormControl>
-                            <FormControl isRequired my={2}>
-                                <FormLabel>Select Employee</FormLabel>
-                                <Select
-                                    options={[]}
 
-                                />
-                            </FormControl>
-                            <FormControl isRequired my={2}>
-                                <FormLabel>Out Time</FormLabel>
-                                <Input type="time" />
-                            </FormControl>
-                            <FormControl my={4}>
-                                <Button type="submit" w={"100%"} colorScheme="purple">ADD OUT TIME</Button>
+                            <FormControl my={4} mt={8}>
+                                <Button type="submit" w={"100%"} colorScheme="purple">Add Attendance</Button>
                             </FormControl>
                         </form>
                     </CardBody>

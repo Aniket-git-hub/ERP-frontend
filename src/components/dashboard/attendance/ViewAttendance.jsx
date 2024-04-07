@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { getAggregateAttendance, getEmployeesAttendance } from "../../../api/data";
+import { getAggregateAttendance, getEmployeesAttendance } from "../../../api/endpoints/employee/attendances";
 import DataTable from "../../utils/DataTable";
 
 function ViewAttendance() {

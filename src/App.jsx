@@ -1,25 +1,19 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes, useSearchParams } from 'react-router-dom';
-import {
-  getAdvances,
-  getAggregateInvoiceData,
-  getAggregateJobData,
-  getAllDepartment,
-  getAllDesignation,
-  getAllDesignationByDepartment,
-  getBudgets,
-  getClients,
-  getEmployeeOptions,
-  getEmployees,
-  getExpenseCategories,
-  getExpenses,
-  getInvoices,
-  getJobs,
-  getMaterials,
-  getOperations,
-  getScrapSell,
-  getTransactions
-} from './api/data';
+import { getBudgets } from './api/endpoints/budget/budget';
+import { getExpenseCategories } from './api/endpoints/budget/expenseCategories';
+import { getExpenses } from './api/endpoints/budget/expenses';
+import { getTransactions } from './api/endpoints/budget/transactions';
+import { getAdvances } from './api/endpoints/employee/advances';
+import { getAllDepartment } from './api/endpoints/employee/department';
+import { getAllDesignation, getAllDesignationByDepartment } from './api/endpoints/employee/designation';
+import { getEmployeeOptions, getEmployees } from './api/endpoints/employee/employees';
+import { getClients } from './api/endpoints/work/clients';
+import { getAggregateInvoiceData, getInvoices } from './api/endpoints/work/invoices';
+import { getAggregateJobData, getJobs } from './api/endpoints/work/jobs';
+import { getMaterials } from './api/endpoints/work/materials';
+import { getOperations } from './api/endpoints/work/operations';
+import { getScrapSell } from './api/endpoints/work/scrapSellAPI';
 import InvoiceById from './components/dashboard/invoices/InvoiceById';
 import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';

@@ -1,5 +1,5 @@
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightAddon, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react"
-import { addScrapSell } from "../../api/data"
+import { addScrapSell } from "../../api/endpoints/work/scrapSellAPI"
 import { useData } from "../../hooks/useData"
 import { useFormValidation } from "../../hooks/useFormValidation"
 import { formatDate } from "../../utils/utils"
