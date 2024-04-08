@@ -2,7 +2,7 @@ import { CloseIcon, EditIcon } from "@chakra-ui/icons"
 import { Box, Button, ButtonGroup, Flex, FormControl, FormErrorMessage, FormLabel, Heading, IconButton, Input, InputGroup, Text, useToast } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useState } from "react"
-import { addDesignation, deleteDesignation, updateExpense } from "../../../api/data"
+import { addDesignation, deleteDesignation, updateDesignation } from "../../../api/endpoints/employee/designation"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 import CustomAlertDialog from "../../utils/AlertDialog"
@@ -56,7 +56,7 @@ function Designation() {
     const handleUpdateDesignation = async (id, data) => {
         try {
             setUpdating(true)
-            const response = await updateExpense(data, id)
+            const response = await updateDesignation(data, id)
             toast({
                 title: 'Update Designation',
                 description: response.data.message,

@@ -1,6 +1,6 @@
 import { Box, Button, Center, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Textarea, VStack } from "@chakra-ui/react"
 import { useRef } from "react"
-import { addClient } from "../../../api/data"
+import { addClient } from "../../../api/endpoints/work/clients"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 function AddClient() {
     const clientNameRef = useRef()

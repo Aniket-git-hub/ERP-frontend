@@ -3,7 +3,7 @@ import {
     Select
 } from "chakra-react-select";
 import { useEffect, useRef, useState } from "react";
-import { addJob } from "../../../api/data.js";
+import { addJob } from "../../../api/endpoints/work/jobs";
 import { useData } from "../../../hooks/useData";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 

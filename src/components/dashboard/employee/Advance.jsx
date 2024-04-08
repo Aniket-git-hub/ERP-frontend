@@ -1,6 +1,6 @@
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputRightAddon, Table, TableCaption, TableContainer, Tbody, Td, Textarea, Th, Thead, Tr } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
-import { createAdvance } from "../../../api/data"
+import { createAdvance } from "../../../api/endpoints/employee/advances"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 import { formatDate } from "../../../utils/utils"

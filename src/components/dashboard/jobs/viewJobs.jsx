@@ -5,7 +5,7 @@ import {
     Select
 } from "chakra-react-select";
 import { useEffect, useState } from "react";
-import { deleteJob, getJobs, updateJob } from "../../../api/data";
+import { deleteJob, getJobs, updateJob } from "../../../api/endpoints/work/jobs";
 import { useData } from "../../../hooks/useData";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 import { getUpdatableValue } from "../../../utils/utils";

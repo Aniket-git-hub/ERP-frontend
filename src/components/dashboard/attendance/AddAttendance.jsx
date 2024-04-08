@@ -1,58 +1,64 @@
-import { Button, Center, Container, FormControl, FormErrorMessage, FormLabel, HStack, Input, InputGroup, InputRightAddon, VStack } from "@chakra-ui/react"
-import { addMaterial } from "../../../api/data"
-import { useFormValidation } from "../../../hooks/useFormValidation"
-function AddAttendance() {
-    const initialState = { name: '', hardness: '', density: '' }
+import {
+    Box, Button,
+    ButtonGroup,
+    FormControl,
+    FormLabel,
+    Input
+} from "@chakra-ui/react";
+import { Select } from "chakra-react-select";
+import { useState } from "react";
+import { addAttendance } from "../../../api/endpoints/employee/attendances";
+import { useData } from "../../../hooks/useData";
+import { useFormValidation } from "../../../hooks/useFormValidation";
 
-    const saveMaterial = async (values) => {
+function AddAttendance() {
+    const { employeeOptions } = useData()
+
+    const [punchTypeIn, setPunchTypeIn] = useState(new Date().getHours() < 12);
+
+    const initialState = { employeeId: '', checkTimestamp: '' }
+    const submit = async (values) => {
         try {
-            console.log(values)
-            const { data: { message } } = await addMaterial(values)
-            return { title: "Save Material", message }
+            const { employeeId } = values
+            const response = await addAttendance(employeeId, {
+                ...values,
+                punchType: punchTypeIn ? "in" : "out"
+            })
+            return { title: "Add Attendance", message: response.data.message }
         } catch (error) {
-            throw error
+            throw error;
         }
     }
-
-    const { values, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(initialState, saveMaterial)
+    const { values, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(initialState, submit)
 
     return (
-        <Container p={5} boxShadow={'0 2px 4px rgba(0, 0, 0, 0.2)'} borderRadius={'15px'}>
+        <Box>
             <form onSubmit={handleSubmit}>
-                <FormControl isInvalid={errors.name} isRequired mb=".8rem">
-                    <FormLabel>Employee</FormLabel>
-                    <Input type='text' name="name" value={values.name} onChange={handleChange()} />
-                    <FormErrorMessage>{errors.name}</FormErrorMessage>
+
+                <ButtonGroup variant={"outline"} isAttached w={"100%"} mb={3}>
+                    <Button w={"100%"} colorScheme={punchTypeIn ? "purple" : "gray"} variant={punchTypeIn ? 'solid' : 'outline'} onClick={() => setPunchTypeIn(true)}>IN</Button>
+                    <Button w={"100%"} colorScheme={!punchTypeIn ? "purple" : "gray"} variant={!punchTypeIn ? 'solid' : 'outline'} onClick={() => setPunchTypeIn(false)}>OUT</Button>
+                </ButtonGroup>
+
+                <FormControl isRequired my={2}>
+                    <FormLabel>Select Employee</FormLabel>
+                    <Select
+                        options={employeeOptions || []}
+                        onChange={handleChange("employeeId")}
+                        value={employeeOptions.filter(e => e.value === values.employeeId)[0] || ''}
+                    />
                 </FormControl>
 
-                <HStack>
-                    <FormControl isInvalid={errors.hardness} isRequired mb=".8rem">
-                        <FormLabel>Hardness</FormLabel>
-                        <InputGroup>
-                            <Input type='number' name="hardness" textAlign={"right"} value={values.hardness} onChange={handleChange()} />
-                            <InputRightAddon children={"HRC"} />
-                        </InputGroup>
-                        <FormErrorMessage>{errors.hardness}</FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={errors.density} isRequired mb=".8rem">
-                        <FormLabel>Density</FormLabel>
-                        <InputGroup>
-                            <Input type="number" name="density" textAlign={"right"} value={values.density} onChange={handleChange()} />
-                            <InputRightAddon children={"kg/m3"} />
-                        </InputGroup>
-                        <FormErrorMessage>{errors.density}</FormErrorMessage>
-                    </FormControl>
-                </HStack>
+                <FormControl isRequired my={2}>
+                    <FormLabel>Date</FormLabel>
+                    <Input type="datetime-local" name="checkTimestamp" value={values.checkTimestamp} onChange={handleChange()} />
+                </FormControl>
 
-                <Center w={"full"}>
-                    <VStack w={"full"}>
-                        <Button type="submit" w={"full"} mt={5} colorScheme='purple' isLoading={isSubmitting} loadingText="Saving..." isDisabled={isSubmitting}>
-                            Save Material
-                        </Button>
-                    </VStack>
-                </Center>
+                <FormControl my={4} mt={8}>
+                    <Button type="submit" w={"100%"} colorScheme="purple">Add Attendance</Button>
+                </FormControl>
             </form>
-        </Container>
+        </Box>
     )
 }
 

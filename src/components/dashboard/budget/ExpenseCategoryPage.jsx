@@ -1,7 +1,7 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons"
 import { Box, Button, ButtonGroup, Flex, FormControl, FormErrorMessage, FormLabel, Heading, IconButton, Input, InputGroup, Text, useToast } from "@chakra-ui/react"
 import { useState } from "react"
-import { createExpenseCategory, deleteExpenseCategory, updateExpense } from "../../../api/data"
+import { createExpenseCategory, deleteExpenseCategory } from "../../../api/endpoints/budget/expenseCategories"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 import CustomAlertDialog from "../../utils/AlertDialog"

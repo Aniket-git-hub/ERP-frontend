@@ -1,7 +1,7 @@
 import { EditIcon } from "@chakra-ui/icons";
 import { Button, Center, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalContent, ModalOverlay, Textarea, VStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { deleteClient, updateClient } from "../../../api/data";
+import { deleteClient, updateClient } from "../../../api/endpoints/work/clients";
 import { useData } from "../../../hooks/useData";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 import { getUpdatableValue } from "../../../utils/utils";

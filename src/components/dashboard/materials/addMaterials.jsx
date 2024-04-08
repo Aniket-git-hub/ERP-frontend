@@ -1,5 +1,5 @@
 import { Button, Center, Container, FormControl, FormErrorMessage, FormLabel, HStack, Input, InputGroup, InputRightAddon, VStack } from "@chakra-ui/react"
-import { addMaterial } from "../../../api/data"
+import { addMaterial } from "../../../api/endpoints/work/materials"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 function AddMaterials() {
     const initialState = { name: '', hardness: '', density: '' }

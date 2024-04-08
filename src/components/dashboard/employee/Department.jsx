@@ -1,7 +1,7 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons"
 import { Box, Button, ButtonGroup, Flex, FormControl, FormErrorMessage, FormLabel, Heading, IconButton, Input, InputGroup, Text, useToast } from "@chakra-ui/react"
 import { useState } from "react"
-import { addDepartment, updateDepartment } from "../../../api/data"
+import { addDepartment, deleteDepartment, updateDepartment } from "../../../api/endpoints/employee/department"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 import CustomAlertDialog from "../../utils/AlertDialog"
@@ -26,7 +26,7 @@ function Department() {
     const handleDeleteDepartment = async (id) => {
         try {
             setDeleting(true)
-            const response = await deleteOperation(id)
+            const response = await deleteDepartment(id)
             toast({
                 title: 'Delete Department',
                 description: response.data.message,

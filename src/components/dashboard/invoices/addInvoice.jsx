@@ -1,7 +1,7 @@
 import { Button, ButtonGroup, Center, Checkbox, Container, FormControl, FormErrorMessage, FormLabel, HStack, Heading, Input, InputGroup, InputRightAddon, Textarea, VStack } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useEffect, useRef, useState } from "react"
-import { createInvoice, getJobs } from "../../../api/data"
+import { createInvoice } from "../../../api/endpoints/work/invoices"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 import { getMonthRange } from "../../../utils/utils"

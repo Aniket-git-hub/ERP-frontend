@@ -1,7 +1,7 @@
 import { Box, Flex, HStack, Heading, Text, VStack } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { getInvoiceById } from "../../../api/data"
+import { getInvoiceById } from "../../../api/endpoints/work/invoices"
 
 function InvoiceById() {
     const { invoiceId } = useParams()

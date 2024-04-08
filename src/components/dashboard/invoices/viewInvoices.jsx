@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { MdRemoveRedEye } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { getInvoices } from "../../../api/data";
+import { getInvoices } from "../../../api/endpoints/work/invoices";
 import { useData } from "../../../hooks/useData";
 import DataTable from "../../utils/DataTable";
 

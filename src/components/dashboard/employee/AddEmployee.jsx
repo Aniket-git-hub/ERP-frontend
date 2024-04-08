@@ -13,7 +13,7 @@ import {
     Textarea
 } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
-import { addEmployee } from "../../../api/data"
+import { addEmployee } from "../../../api/endpoints/employee/employees"
 import { useData } from "../../../hooks/useData"
 import { useFormValidation } from "../../../hooks/useFormValidation"
 
