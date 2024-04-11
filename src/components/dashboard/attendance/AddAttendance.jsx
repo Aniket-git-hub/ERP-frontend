@@ -11,10 +11,10 @@ import { addAttendance } from "../../../api/endpoints/employee/attendances";
 import { useData } from "../../../hooks/useData";
 import { useFormValidation } from "../../../hooks/useFormValidation";
 
-function AddAttendance() {
+function AddAttendance({ defaultPunchIn, defaultPunchOut }) {
     const { employeeOptions } = useData()
 
-    const [punchTypeIn, setPunchTypeIn] = useState(new Date().getHours() < 12);
+    const [punchTypeIn, setPunchTypeIn] = useState(defaultPunchIn ? true : defaultPunchOut ? false : new Date().getHours() < 12);
 
     const initialState = { employeeId: '', checkTimestamp: '' }
     const submit = async (values) => {
@@ -35,7 +35,7 @@ function AddAttendance() {
         <Box>
             <form onSubmit={handleSubmit}>
 
-                <ButtonGroup variant={"outline"} isAttached w={"100%"} mb={3}>
+                <ButtonGroup variant={"outline"} isAttached w={"100%"} mb={3} isDisabled={defaultPunchIn || defaultPunchOut}>
                     <Button w={"100%"} colorScheme={punchTypeIn ? "purple" : "gray"} variant={punchTypeIn ? 'solid' : 'outline'} onClick={() => setPunchTypeIn(true)}>IN</Button>
                     <Button w={"100%"} colorScheme={!punchTypeIn ? "purple" : "gray"} variant={!punchTypeIn ? 'solid' : 'outline'} onClick={() => setPunchTypeIn(false)}>OUT</Button>
                 </ButtonGroup>

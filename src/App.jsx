@@ -21,7 +21,6 @@ import RootLayout from './layouts/RootLayout';
 import Error404Page from './pages/Error404Page';
 import LoginPage from './pages/auth/LoginPage';
 import AboutusPage from './pages/dashboard/AboutusPage';
-import AttendancePage from './pages/dashboard/AttendancePage';
 import BudgetPage from './pages/dashboard/BudgetPage';
 import ClientsPage from './pages/dashboard/ClientsPage';
 import EmployeePage from './pages/dashboard/EmployeePage';
@@ -175,7 +174,6 @@ function App() {
         <Route path="materials" element={<MaterialsPage />} />
         <Route path="invoices" element={<InvoicePage />} />
         <Route path="invoice/:invoiceId" element={<InvoiceById />} />
-        <Route path="attendance" element={<AttendancePage />} />
         <Route path="employee" element={<EmployeePage />} />
         <Route path="budget" element={<BudgetPage />} />
         <Route path="scrap" element={<ScrapPage />} />

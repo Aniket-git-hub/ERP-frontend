@@ -1,3 +1,4 @@
+import AttendanceOverview from "../../components/dashboard/attendance/attendanceOverview";
 import AddEmployee from "../../components/dashboard/employee/AddEmployee";
 import Advance from "../../components/dashboard/employee/Advance";
 import EmployeeOverview from "../../components/dashboard/employee/EmployeeOverview";
@@ -8,6 +9,7 @@ import TabsComponent from "../../components/utils/TabsComponent";
 function EmployeePage() {
     const tabs = [
         { title: "Overview", component: <EmployeeOverview /> },
+        { title: "Attendance", component: <AttendanceOverview /> },
         { title: "Advance", component: <Advance /> },
         { title: "Payment", component: <Payment /> },
         { title: "View Employees", component: <ViewEmployees /> },

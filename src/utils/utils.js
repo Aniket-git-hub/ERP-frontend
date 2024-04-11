@@ -10,6 +10,7 @@ export function formatDate(date, type) {
 }
 
 export function convertTo12HourFormat(time24) {
+    if (!time24) { return time24 }
     let timeSplit = time24.split(":");
     let hours = parseInt(timeSplit[0]);
     let minutes = parseInt(timeSplit[1]);

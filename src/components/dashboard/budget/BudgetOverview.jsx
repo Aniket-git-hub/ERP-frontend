@@ -52,7 +52,7 @@ function BudgetOverview() {
                             title={card.title}
                             icon={card.icon}
                             data={formatCurrency(card.data, 'en-IN', false, 'INR')}
-                            key={index}
+                            key={card.title}
                         />
 
                     ))

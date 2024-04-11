@@ -32,7 +32,7 @@ function AttendanceOverview() {
                         hideFooterClose={true}
                         header={"Add Check In"}
                     >
-                        <AddAttendance />
+                        <AddAttendance defaultPunchIn />
                     </CustomModal>
                     <CustomModal
                         trigger={(onOpen) => (
@@ -42,7 +42,7 @@ function AttendanceOverview() {
                         hideFooterClose={true}
                         header={"Add Check Out"}
                     >
-                        <AddAttendance />
+                        <AddAttendance defaultPunchOut />
                     </CustomModal>
                 </HStack>
             </Flex>
@@ -60,10 +60,6 @@ function AttendanceOverview() {
                     ))
                 }
 
-            </Flex>
-
-            <Flex w={'100%'} gap={10} mt={10}>
-                <AddAttendance />
             </Flex>
 
         </Box>

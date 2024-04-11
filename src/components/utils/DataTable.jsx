@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { useSearchParams } from "react-router-dom";
-import { formatCurrency, formatDate, getSearchParams } from "../../utils/utils";
+import { convertTo12HourFormat, formatCurrency, formatDate, getSearchParams } from "../../utils/utils";
 import FilterMenu from "./FilterMenu";
 
 function DataTable({ data, columns, paginationData, changePage, changeLimit, firstFilter, actionIcon, actionButton, onActionButtonClick }) {
@@ -70,7 +70,7 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
         if (column.isTime) value = convertTo12HourFormat(value);
         if (column.isBoolean) value = value ? 'Yes' : 'No';
         if (column.isCurrency) value = formatCurrency(Math.ceil(value), 'en-IN', false, 'INR')
-        return value || '-';
+        return value ?? '-';
     }
 
     return (
@@ -112,7 +112,7 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
                     <Tr >
                         <Th p={3}>Sr. No</Th>
                         {columns.map((column, index) => (
-                            <Th isNumeric={column.isNumeric} whiteSpace="normal" p={3} key={index}>{column.label}</Th>
+                            <Th isNumeric={column.isNumeric} whiteSpace="normal" p={3} key={column.label}>{column.label}</Th>
                         ))}
                         {
                             actionButton &&
@@ -157,7 +157,7 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
             </Table>
 
             {
-                (paginationData && paginationData.totalItems) &&
+                paginationData !== undefined && paginationData.totalItems !== 0 &&
                 (
                     <HStack justify={"center"} p={2}>
                         <ButtonGroup isAttached>

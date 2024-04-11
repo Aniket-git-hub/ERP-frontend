@@ -16,7 +16,6 @@ import { FiLogOut, FiMenu } from "react-icons/fi";
 import { GiExpense, GiMetalBar, GiSpanner, GiTrashCan } from "react-icons/gi";
 import { GrUserWorker } from "react-icons/gr";
 import { HiOutlineRectangleGroup } from "react-icons/hi2";
-import { IoListSharp } from "react-icons/io5";
 import { LiaFileInvoiceDollarSolid } from "react-icons/lia";
 import { MdOutlinePerson } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -31,7 +30,6 @@ function LeftSidePanel() {
         { name: "Clients", icon: MdOutlinePerson, path: "/clients" },
         { name: "Materials", icon: GiMetalBar, path: "/materials" },
         { name: "Invoices", icon: LiaFileInvoiceDollarSolid, path: "/invoices" },
-        { name: "Attendance", icon: IoListSharp, path: "/attendance" },
         { name: "Employees", icon: GrUserWorker, path: "/employee" },
         { name: "Budget", icon: GiExpense, path: "/budget" },
         { name: "Scrap", icon: GiTrashCan, path: "/scrap" },
