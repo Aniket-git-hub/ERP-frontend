@@ -19,7 +19,9 @@ import { useAuth } from './hooks/useAuth';
 import { useData } from './hooks/useData';
 import RootLayout from './layouts/RootLayout';
 import Error404Page from './pages/Error404Page';
+import ForgotPassword from './pages/auth/ForgotPassword';
 import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
 import AboutusPage from './pages/dashboard/AboutusPage';
 import BudgetPage from './pages/dashboard/BudgetPage';
 import ClientsPage from './pages/dashboard/ClientsPage';
@@ -186,6 +188,26 @@ function App() {
         element={
           !isAuthenticated ? (
             <LoginPage />
+          ) : (
+            <Navigate replace to="/" />
+          )
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          !isAuthenticated ? (
+            <RegisterPage />
+          ) : (
+            <Navigate replace to="/" />
+          )
+        }
+      />
+      <Route
+        path="/forgot-password"
+        element={
+          !isAuthenticated ? (
+            <ForgotPassword />
           ) : (
             <Navigate replace to="/" />
           )

@@ -1,12 +1,12 @@
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { Button, Card, CardBody, Center, Container, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Input, InputGroup, InputRightElement, Link, VStack } from '@chakra-ui/react';
+import { Button, Card, CardBody, Center, Container, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Input, InputGroup, InputRightElement, Link, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 import { loginUser } from '../../api/auth';
 import { useAuth } from '../../hooks/useAuth';
 import { useFormValidation } from '../../hooks/useFormValidation';
 
-export default function LoginPage() {
-    const initialState = { email: 'singhdharmvir81@gmail.com', password: 'Annupc0631@erp' }
+export default function RegisterPage() {
+    const initialState = { email: '', password: '' }
 
     const { save } = useAuth()
 
@@ -31,7 +31,7 @@ export default function LoginPage() {
             <Card borderBottom="4px" borderBottomColor="purple.500">
                 <CardBody>
                     <Center>
-                        <Heading mb="30px">LETSBUG ERP - Login </Heading>
+                        <Heading mb="30px">LETSBUG ERP - Register </Heading>
                     </Center>
                     <form onSubmit={handleSubmit}>
                         <FormControl isInvalid={errors.email} isRequired mb=".8rem">
@@ -51,15 +51,12 @@ export default function LoginPage() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <Flex justifyContent="end">
-                            <Link href="/forgot-password">Forgot password</Link>
-                        </Flex>
                         <Center>
                             <VStack>
                                 <Button type="submit" m={5} colorScheme='purple' isLoading={isSubmitting} loadingText="logging..." disabled={isSubmitting}>
-                                    Login
+                                    Register
                                 </Button>
-                                <p>Don't have an account? <Link href="/register">Create</Link> </p>
+                                <p>Already registered? <Link href="/login">Login</Link> </p>
                             </VStack>
                         </Center>
                     </form>
