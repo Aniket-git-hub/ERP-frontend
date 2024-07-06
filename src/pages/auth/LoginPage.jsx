@@ -6,7 +6,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useFormValidation } from '../../hooks/useFormValidation';
 
 export default function LoginPage() {
-    const initialState = { email: 'singhdharmvir81@gmail.com', password: 'Annupc0631@erp' }
+    const initialState = { email: 'singhdharmvir81@gmail.com', password: 'Test@123' }
 
     const { save } = useAuth()
 
