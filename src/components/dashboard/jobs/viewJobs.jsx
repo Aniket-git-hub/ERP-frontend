@@ -155,7 +155,7 @@ function ViewJobs() {
     return (
         <>
             <DataTable
-                data={flattenedJobs(items)}
+                data={flattenedJobs(items || [])}
                 columns={columns}
                 paginationData={paginationData}
                 changePage={handlePageChange}

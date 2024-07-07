@@ -7,7 +7,6 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { useSearchParams } from "react-router-dom";
 import { convertTo12HourFormat, formatCurrency, formatDate, getSearchParams } from "../../utils/utils";
-import FilterMenu from "./FilterMenu";
 
 function DataTable({ data, columns, paginationData, changePage, changeLimit, firstFilter, actionIcon, actionButton, onActionButtonClick }) {
 
@@ -100,10 +99,10 @@ function DataTable({ data, columns, paginationData, changePage, changeLimit, fir
                     </Button>
                 </FormControl>
                 <Flex flex={2} justifyContent={"end"}>
-                    <HStack gap={3}>
+                    {/* <HStack gap={3}>
                         <FilterMenu />
                         <Button variant={"outline"}>Generate Report</Button>
-                    </HStack>
+                    </HStack> */}
                 </Flex>
             </Flex>
 
