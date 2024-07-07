@@ -6,8 +6,7 @@
  * @property {number} quantity - The quantity of the material being sold.
  * @property {number} unitPrice - The unit price of the material being sold.
  */
-import { handleRequest } from "../../data";
-
+import { handleRequest } from "../../data"
 
 /**
  * Fetches scrap sells from the server.
@@ -15,7 +14,7 @@ import { handleRequest } from "../../data";
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const getScrapSell = async () => handleRequest(`/scrap-sell`, {}, 'GET');
+export const getScrapSell = async () => handleRequest(`/scrap-sell`, {}, "GET")
 
 /**
  * Adds a new scrap sell.
@@ -24,7 +23,8 @@ export const getScrapSell = async () => handleRequest(`/scrap-sell`, {}, 'GET');
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const addScrapSell = async (data) => handleRequest('/scrap-sell', data, 'POST');
+export const addScrapSell = async (data) =>
+  handleRequest("/scrap-sell", data, "POST")
 
 /**
  * Updates a scrap sell.
@@ -35,7 +35,7 @@ export const addScrapSell = async (data) => handleRequest('/scrap-sell', data, '
  * @throws {Error} - Throws an error if the request fails.
  */
 export const updateScrapSell = async (scrapSellId, data) =>
-    handleRequest(`/scrap-sell/${scrapSellId}`, data, 'PUT');
+  handleRequest(`/scrap-sell/${scrapSellId}`, data, "PUT")
 
 /**
  * Deletes a scrap sell.
@@ -45,5 +45,4 @@ export const updateScrapSell = async (scrapSellId, data) =>
  * @throws {Error} - Throws an error if the request fails.
  */
 export const deleteScrapSell = async (scrapSellId) =>
-    handleRequest(`/scrap-sell/${scrapSellId}`, {}, 'DELETE');
-
+  handleRequest(`/scrap-sell/${scrapSellId}`, {}, "DELETE")

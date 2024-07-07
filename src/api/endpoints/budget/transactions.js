@@ -1,4 +1,4 @@
-import { handleRequest } from "../../data";
+import { handleRequest } from "../../data"
 
-
-export const getTransactions = async () => handleRequest('/transaction', {}, 'GET')
+export const getTransactions = async () =>
+  handleRequest("/transaction", {}, "GET")

@@ -1,9 +1,9 @@
 function AboutusPage() {
-    return (
-        <div>
-            <button>About Page</button>
-        </div>
-    )
+  return (
+    <div>
+      <button>About Page</button>
+    </div>
+  )
 }
 
 export default AboutusPage

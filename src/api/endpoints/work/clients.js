@@ -1,4 +1,4 @@
-import { handleRequest } from "../../data";
+import { handleRequest } from "../../data"
 
 /**
  * Fetches clients from the server.
@@ -6,7 +6,7 @@ import { handleRequest } from "../../data";
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const getClients = async () => handleRequest('/client/', {}, 'GET');
+export const getClients = async () => handleRequest("/client/", {}, "GET")
 
 /**
  * Adds a new client.
@@ -15,7 +15,7 @@ export const getClients = async () => handleRequest('/client/', {}, 'GET');
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const addClient = async (data) => handleRequest('/client', data, 'POST');
+export const addClient = async (data) => handleRequest("/client", data, "POST")
 
 /**
  * Updates a client.
@@ -25,7 +25,8 @@ export const addClient = async (data) => handleRequest('/client', data, 'POST');
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const updateClient = async (clientId, data) => handleRequest(`/client/${clientId}`, data, 'PUT');
+export const updateClient = async (clientId, data) =>
+  handleRequest(`/client/${clientId}`, data, "PUT")
 
 /**
  * Deletes a client.
@@ -34,4 +35,5 @@ export const updateClient = async (clientId, data) => handleRequest(`/client/${c
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const deleteClient = async (clientId) => handleRequest(`/client/${clientId}`, {}, 'DELETE');
+export const deleteClient = async (clientId) =>
+  handleRequest(`/client/${clientId}`, {}, "DELETE")

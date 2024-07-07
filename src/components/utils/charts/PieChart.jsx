@@ -1,8 +1,5 @@
-
 function PieChart() {
-    return (
-        <div>PieChart</div>
-    )
+  return <div>PieChart</div>
 }
 
 export default PieChart

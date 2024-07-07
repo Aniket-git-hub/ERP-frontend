@@ -1,11 +1,7 @@
 import { Box } from "@chakra-ui/react"
 
 function EmployeeOverview() {
-    return (
-        <Box>
-
-        </Box>
-    )
+  return <Box></Box>
 }
 
 export default EmployeeOverview

@@ -7,8 +7,7 @@
  * @property {number} hardness - The hardness of the material.
  */
 
-
-import { handleRequest } from "../../data";
+import { handleRequest } from "../../data"
 
 /**
  * Fetches materials from the server.
@@ -16,7 +15,7 @@ import { handleRequest } from "../../data";
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const getMaterials = async () => handleRequest('/material/', {}, 'GET');
+export const getMaterials = async () => handleRequest("/material/", {}, "GET")
 
 /**
  * Adds a new material.
@@ -25,7 +24,8 @@ export const getMaterials = async () => handleRequest('/material/', {}, 'GET');
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const addMaterial = async (data) => handleRequest('/material', data, 'POST');
+export const addMaterial = async (data) =>
+  handleRequest("/material", data, "POST")
 
 /**
  * Updates a material.
@@ -35,7 +35,8 @@ export const addMaterial = async (data) => handleRequest('/material', data, 'POS
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const updateMaterial = async (materialId, data) => handleRequest(`/material/${materialId}`, data, 'PUT');
+export const updateMaterial = async (materialId, data) =>
+  handleRequest(`/material/${materialId}`, data, "PUT")
 
 /**
  * Deletes a material.
@@ -44,4 +45,5 @@ export const updateMaterial = async (materialId, data) => handleRequest(`/materi
  * @returns {Promise} - A Promise that resolves with the response data.
  * @throws {Error} - Throws an error if the request fails.
  */
-export const deleteMaterial = async (materialId) => handleRequest(`/material/${materialId}`, {}, 'DELETE');
+export const deleteMaterial = async (materialId) =>
+  handleRequest(`/material/${materialId}`, {}, "DELETE")
