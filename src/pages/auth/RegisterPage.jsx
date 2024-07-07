@@ -17,9 +17,8 @@ import { useFormValidation } from "../../hooks/useFormValidation"
 export default function RegisterPage() {
     const { save } = useAuth()
 
-    const login = async (values) => {
+    const register = async (values) => {
         try {
-            console.log(values)
             const response = await registerUser(values)
             const { user, token } = response.data
             save(user, token)
@@ -35,12 +34,12 @@ export default function RegisterPage() {
     const initialState = {
         firstName: "",
         lastName: "",
-        email: "",
-        password: "",
         mobileNumber: "",
+        email: "",
+        password: ""
     }
     const { values, errors, handleChange, handleSubmit, isSubmitting } =
-        useFormValidation(initialState, login)
+        useFormValidation(initialState, register)
 
     return (
         <Container as="section" my="50px" maxW="600px">
@@ -81,9 +80,9 @@ export default function RegisterPage() {
                             type="number"
                             name="mobileNumber"
                             label="Mobile Number"
-                            value={values.number}
+                            value={values.mobileNumber}
                             onChange={handleChange()}
-                            error={errors.number}
+                            error={errors.mobileNumber}
                             isRequired
                         />
                         <FormInput
