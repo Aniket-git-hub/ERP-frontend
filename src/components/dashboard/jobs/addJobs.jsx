@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   Center,
@@ -12,6 +16,7 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  Link,
   Switch,
   Textarea,
   VStack,
@@ -278,7 +283,7 @@ function AddJobs() {
           <FormControl mb=".5rem">
             <FormLabel>Operations & Rate</FormLabel>
             <Flex wrap={"wrap"} gap={3}>
-              {operations &&
+              {operations && operations.length > 0 ?
                 operations.map((operation, index) => (
                   <FormControl maxW={"25%"} key={`${operation.name}-${index}`}>
                     <Checkbox
@@ -310,7 +315,18 @@ function AddJobs() {
                     </InputGroup>
                     <FormErrorMessage></FormErrorMessage>
                   </FormControl>
-                ))}
+                ))
+                :
+                <Alert status="error">
+                  <AlertIcon />
+                  <AlertTitle>No Operations Available</AlertTitle>
+                  <AlertDescription color={'blue.500'}>
+                    <Link href="/settings?setting=operations">
+                      Add Operations
+                    </Link>
+                  </AlertDescription>
+                </Alert>
+              }
             </Flex>
             <FormErrorMessage>{errors.drawingNumber}</FormErrorMessage>
           </FormControl>

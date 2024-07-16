@@ -79,26 +79,31 @@ function DataTable({
   }
 
   const getPageNumbers = (currentPage, totalPages) => {
-    let startPage, endPage
+    let startPage, endPage;
+
+    if (totalPages === 0) {
+      return [];
+    }
+
     if (totalPages <= 10) {
-      startPage = 1
-      endPage = totalPages
+      startPage = 1;
+      endPage = totalPages;
     } else {
       if (currentPage <= 6) {
-        startPage = 1
-        endPage = 10
+        startPage = 1;
+        endPage = 10;
       } else if (currentPage + 4 >= totalPages) {
-        startPage = totalPages - 9
-        endPage = totalPages
+        startPage = totalPages - 9;
+        endPage = totalPages;
       } else {
-        startPage = currentPage - 5
-        endPage = currentPage + 4
+        startPage = currentPage - 5;
+        endPage = currentPage + 4;
       }
     }
-    return Array.from(Array(endPage + 1 - startPage).keys()).map(
-      (i) => startPage + i,
-    )
-  }
+
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  };
+
 
   const getModifiedValue = (item, column) => {
     let value = item[column.name]
