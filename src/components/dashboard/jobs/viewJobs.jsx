@@ -81,14 +81,14 @@ function ViewJobs() {
   }
 
   const columns = [
-    { label: "Drawing Number", name: "drawingNumber" },
+    { label: "Drawing Number", name: "drawingNumber", searchable: true },
     { label: "Date", name: "date", isDate: true },
-    { label: "Client", name: "client" },
-    { label: "Description", name: "description" },
+    { label: "Client", name: "client", searchable: true },
+    { label: "Description", name: "description", searchable: true },
     { label: "Size", name: "size" },
     { label: "Material", name: "material" },
     { label: "Billed", name: "invoiceId", isBoolean: true },
-    { label: "Qty", name: "qty", isNumeric: true },
+    { label: "Qty", name: "qty", isNumeric: true, searchable: true },
     { label: "Rate", name: "rate", isNumeric: true },
     { label: "Total", name: "total", isNumeric: true },
   ]
@@ -198,6 +198,18 @@ function ViewJobs() {
 
     return optionByOne || optionByTwo || null
   }
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  const fetchData = async (searchTerm) => {
+    try {
+      await delay(5000)
+      const response = await axios.get(`/api/search?term=${searchTerm}`)
+      return response.data
+    } catch (error) {
+      console.error("Error fetching data:", error)
+      throw error
+    }
+  }
 
   return (
     <>
@@ -211,6 +223,7 @@ function ViewJobs() {
         actionIcon={<EditIcon />}
         actionProperty={"id"}
         onActionButtonClick={handleActionClick}
+        fetchData={fetchData}
       />
 
       {selectedItem && (

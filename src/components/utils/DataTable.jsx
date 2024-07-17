@@ -1,4 +1,8 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
   ButtonGroup,
@@ -9,16 +13,17 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
   Th,
   Thead,
-  Tr,
+  Tr
 } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { FiSearch } from "react-icons/fi"
 import { useSearchParams } from "react-router-dom"
@@ -39,6 +44,7 @@ function DataTable({
   actionIcon,
   actionButton,
   onActionButtonClick,
+  fetchData,
 }) {
   const {
     totalItems,
@@ -62,8 +68,47 @@ function DataTable({
   }
 
   const [searchTerm, setSearchTerm] = useState("")
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value)
+  const [filteredData, setFilteredData] = useState(data)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setFilteredData(data)
+  }, [data])
+
+  const handleSearch = async (e) => {
+    const term = e.target.value
+    setSearchTerm(term)
+    setError(null)
+
+    if (term) {
+      const filtered = data.filter((item) =>
+        columns.some(
+          (column) =>
+            column.searchable &&
+            item[column.name]?.toString().toLowerCase().includes(term.toLowerCase())
+        )
+      )
+
+      if (filtered.length === 0) {
+        setIsLoading(true)
+        try {
+          const fetchedData = await fetchData(term)
+          setFilteredData(fetchedData)
+          if (fetchedData.length === 0) {
+            setError("No matching records found")
+          }
+        } catch (error) {
+          setError("Error fetching data")
+        } finally {
+          setIsLoading(false)
+        }
+      } else {
+        setFilteredData(filtered)
+      }
+    } else {
+      setFilteredData(data)
+    }
   }
 
   const limitOptions = [
@@ -79,31 +124,30 @@ function DataTable({
   }
 
   const getPageNumbers = (currentPage, totalPages) => {
-    let startPage, endPage;
+    let startPage, endPage
 
     if (totalPages === 0) {
-      return [];
+      return []
     }
 
     if (totalPages <= 10) {
-      startPage = 1;
-      endPage = totalPages;
+      startPage = 1
+      endPage = totalPages
     } else {
       if (currentPage <= 6) {
-        startPage = 1;
-        endPage = 10;
+        startPage = 1
+        endPage = 10
       } else if (currentPage + 4 >= totalPages) {
-        startPage = totalPages - 9;
-        endPage = totalPages;
+        startPage = totalPages - 9
+        endPage = totalPages
       } else {
-        startPage = currentPage - 5;
-        endPage = currentPage + 4;
+        startPage = currentPage - 5
+        endPage = currentPage + 4
       }
     }
 
-    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-  };
-
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
+  }
 
   const getModifiedValue = (item, column) => {
     let value = item[column.name]
@@ -135,7 +179,6 @@ function DataTable({
           <InputGroup>
             <Input placeholder="Search" onChange={handleSearch} />
             <InputRightElement children={<FiSearch />} borderRadius="10px" />
-            <InputRightElement children={<FiSearch />} borderRadius="10px" />
           </InputGroup>
           <Button colorScheme="purple">Search</Button>
         </FormControl>
@@ -147,66 +190,86 @@ function DataTable({
         </Flex>
       </Flex>
 
-      <Table variant={"simple"} size={"sm"}>
-        <Thead>
-          <Tr>
-            <Th p={3}>Sr. No</Th>
-            {columns.map((column, index) => (
-              <Th
-                isNumeric={column.isNumeric}
-                whiteSpace="normal"
-                p={3}
-                key={column.label}
-              >
-                {column.label}
-              </Th>
-            ))}
-            {actionButton && <Th p={3}>Action</Th>}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.length > 0 ? (
-            data.map((item, i) => (
-              <Tr key={item.id}>
-                <Td whiteSpace="normal" p={3}>
-                  {i + 1}
-                </Td>
-                {columns.map((column, index) => (
-                  <Td
-                    isNumeric={column.isNumeric}
-                    whiteSpace="normal"
-                    p={2}
-                    key={index}
-                  >
-                    {getModifiedValue(item, column)}{" "}
-                  </Td>
-                ))}
-                {actionButton && (
-                  <Td>
-                    {actionIcon ? (
-                      <IconButton
-                        size={"sm"}
-                        icon={actionIcon}
-                        onClick={() => onActionClick(item)}
-                      />
-                    ) : (
-                      <Button size={"sm"} onClick={() => onActionClick(item)}>
-                        {actionButton}
-                      </Button>
-                    )}
-                  </Td>
-                )}
-              </Tr>
-            ))
-          ) : (
+      {isLoading ? (
+        <Box textAlign="center" py={4}>
+          <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+          />
+        </Box>
+      ) : error ? (
+        <Box textAlign="center" py={4}>
+          <Alert status="error" variant={"left-accent"}>
+            <AlertIcon />
+            <AlertTitle> Error fetching data </AlertTitle>
+            <AlertDescription> {error}</AlertDescription>
+          </Alert>
+        </Box>
+      ) : (
+        <Table variant={"simple"} size={"sm"}>
+          <Thead>
             <Tr>
-              <Td colSpan={columns.length + 1} textAlign={"center"}>
-                No Data
-              </Td>
+              <Th p={3}>Sr. No</Th>
+              {columns.map((column, index) => (
+                <Th
+                  isNumeric={column.isNumeric}
+                  whiteSpace="normal"
+                  p={3}
+                  key={column.label}
+                >
+                  {column.label}
+                </Th>
+              ))}
+              {actionButton && <Th p={3}>Action</Th>}
             </Tr>
-          )}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {filteredData.length > 0 ? (
+              filteredData.map((item, i) => (
+                <Tr key={item.id}>
+                  <Td whiteSpace="normal" p={3}>
+                    {i + 1}
+                  </Td>
+                  {columns.map((column, index) => (
+                    <Td
+                      isNumeric={column.isNumeric}
+                      whiteSpace="normal"
+                      p={2}
+                      key={index}
+                    >
+                      {getModifiedValue(item, column)}{" "}
+                    </Td>
+                  ))}
+                  {actionButton && (
+                    <Td>
+                      {actionIcon ? (
+                        <IconButton
+                          size={"sm"}
+                          icon={actionIcon}
+                          onClick={() => onActionClick(item)}
+                        />
+                      ) : (
+                        <Button size={"sm"} onClick={() => onActionClick(item)}>
+                          {actionButton}
+                        </Button>
+                      )}
+                    </Td>
+                  )}
+                </Tr>
+              ))
+            ) : (
+              <Tr>
+                <Td colSpan={columns.length + 1} textAlign={"center"}>
+                  No Data
+                </Td>
+              </Tr>
+            )}
+          </Tbody>
+        </Table>
+      )}
 
       {paginationData !== undefined && paginationData.totalItems !== 0 && (
         <HStack justify={"center"} p={2}>
