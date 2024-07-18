@@ -82,7 +82,7 @@ function ViewJobs() {
 
   const columns = [
     { label: "Drawing Number", name: "drawingNumber", searchable: true },
-    { label: "Date", name: "date", isDate: true },
+    { label: "Date", name: "date", isDate: true, isSortable: true },
     { label: "Client", name: "client", searchable: true, isSortable: true },
     { label: "Description", name: "description", searchable: true },
     { label: "Size", name: "size" },

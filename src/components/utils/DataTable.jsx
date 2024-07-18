@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useEffect, useState } from "react"
-import { FaChevronCircleDown, FaChevronCircleUp, FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import { FaChevronDown, FaChevronLeft, FaChevronRight, FaChevronUp } from "react-icons/fa"
 import { FiSearch } from "react-icons/fi"
 import { useSearchParams } from "react-router-dom"
 import useDebounce from '../../hooks/useDebounce'; // Import your debounce hook
@@ -274,18 +274,20 @@ function DataTable({
                   onClick={() => column.isSortable && handleSortClick(column)}
                   cursor={column.isSortable ? 'pointer' : 'default'}
                 >
-                  <Text>
-                    {column.label}
-                  </Text>
-                  <Text>
-                    {column.isSortable && (
-                      sortConfig.key === column.name ? (
-                        sortConfig.direction === 'asc' ? (<FaChevronCircleUp />) : (<FaChevronCircleDown />)
-                      ) : (
-                        <FaChevronCircleDown />
-                      )
-                    )}
-                  </Text>
+                  <HStack gap={1} display={'flex'} direction={'column'} alignItems={'center'}>
+                    <Text>
+                      {column.label}
+                    </Text>
+                    <Text>
+                      {column.isSortable && (
+                        sortConfig.key === column.name ? (
+                          sortConfig.direction === 'asc' ? (<FaChevronUp />) : (<FaChevronDown />)
+                        ) : (
+                          <FaChevronDown />
+                        )
+                      )}
+                    </Text>
+                  </HStack>
                 </Th>
               ))}
               {actionButton && <Th p={3}>Action</Th>}
