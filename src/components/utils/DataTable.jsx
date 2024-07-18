@@ -18,15 +18,17 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr
 } from "@chakra-ui/react"
 import { Select } from "chakra-react-select"
 import { useEffect, useState } from "react"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import { FaChevronCircleDown, FaChevronCircleUp, FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { FiSearch } from "react-icons/fi"
 import { useSearchParams } from "react-router-dom"
+import useDebounce from '../../hooks/useDebounce'; // Import your debounce hook
 import {
   convertTo12HourFormat,
   formatCurrency,
@@ -45,6 +47,7 @@ function DataTable({
   actionButton,
   onActionButtonClick,
   fetchData,
+  searchOnInput = false // Optional prop to determine search trigger
 }) {
   const {
     totalItems,
@@ -68,6 +71,7 @@ function DataTable({
   }
 
   const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearchTerm, flush] = useDebounce(searchTerm)
   const [filteredData, setFilteredData] = useState(data)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -76,11 +80,23 @@ function DataTable({
     setFilteredData(data)
   }, [data])
 
-  const handleSearch = async (e) => {
-    const term = e.target.value
-    setSearchTerm(term)
-    setError(null)
+  useEffect(() => {
+    if (searchOnInput) {
+      performSearch(debouncedSearchTerm)
+    }
+  }, [debouncedSearchTerm])
 
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value)
+    setError(null)
+  }
+
+  const handleSearchButtonClick = () => {
+    flush()
+    performSearch(searchTerm)
+  }
+
+  const performSearch = async (term) => {
     if (term) {
       const filtered = data.filter((item) =>
         columns.some(
@@ -91,17 +107,22 @@ function DataTable({
       )
 
       if (filtered.length === 0) {
-        setIsLoading(true)
-        try {
-          const fetchedData = await fetchData(term)
-          setFilteredData(fetchedData)
-          if (fetchedData.length === 0) {
-            setError("No matching records found")
+        if (fetchData) {
+          setIsLoading(true)
+          try {
+            const fetchedData = await fetchData(term)
+            setFilteredData(fetchedData)
+            if (fetchedData.length === 0) {
+              setError("No matching records found")
+            }
+          } catch (error) {
+            setError("Error fetching data")
+          } finally {
+            setIsLoading(false)
           }
-        } catch (error) {
-          setError("Error fetching data")
-        } finally {
-          setIsLoading(false)
+        } else {
+          setFilteredData([])
+          setError("No matching records found")
         }
       } else {
         setFilteredData(filtered)
@@ -160,6 +181,37 @@ function DataTable({
     return value ?? "-"
   }
 
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" })
+
+  const sortData = (data, key, direction) => {
+    return data.sort((a, b) => {
+      const aValue = a[key]
+      const bValue = b[key]
+
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return direction === 'asc' ? aValue - bValue : bValue - aValue
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return direction === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue)
+      }
+
+      return 0
+    })
+  }
+
+  const handleSortClick = (column) => {
+    let direction = 'asc'
+    if (sortConfig.key === column.name && sortConfig.direction === 'asc') {
+      direction = 'desc'
+    }
+    setSortConfig({ key: column.name, direction })
+    setFilteredData(sortData(filteredData, column.name, direction))
+  }
+
+
   return (
     <TableContainer>
       <Flex my={2} gap={4}>
@@ -177,10 +229,10 @@ function DataTable({
         </Box>
         <FormControl display={"flex"} gap={3} flex={3}>
           <InputGroup>
-            <Input placeholder="Search" onChange={handleSearch} />
+            <Input placeholder="Search" onChange={handleSearchInputChange} />
             <InputRightElement children={<FiSearch />} borderRadius="10px" />
           </InputGroup>
-          <Button colorScheme="purple">Search</Button>
+          <Button colorScheme="purple" onClick={handleSearchButtonClick}>Search</Button>
         </FormControl>
         <Flex flex={2} justifyContent={"end"}>
           {/* <HStack gap={3}>
@@ -219,8 +271,21 @@ function DataTable({
                   whiteSpace="normal"
                   p={3}
                   key={column.label}
+                  onClick={() => column.isSortable && handleSortClick(column)}
+                  cursor={column.isSortable ? 'pointer' : 'default'}
                 >
-                  {column.label}
+                  <Text>
+                    {column.label}
+                  </Text>
+                  <Text>
+                    {column.isSortable && (
+                      sortConfig.key === column.name ? (
+                        sortConfig.direction === 'asc' ? (<FaChevronCircleUp />) : (<FaChevronCircleDown />)
+                      ) : (
+                        <FaChevronCircleDown />
+                      )
+                    )}
+                  </Text>
                 </Th>
               ))}
               {actionButton && <Th p={3}>Action</Th>}

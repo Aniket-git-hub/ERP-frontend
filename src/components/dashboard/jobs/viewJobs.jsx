@@ -83,12 +83,12 @@ function ViewJobs() {
   const columns = [
     { label: "Drawing Number", name: "drawingNumber", searchable: true },
     { label: "Date", name: "date", isDate: true },
-    { label: "Client", name: "client", searchable: true },
+    { label: "Client", name: "client", searchable: true, isSortable: true },
     { label: "Description", name: "description", searchable: true },
     { label: "Size", name: "size" },
     { label: "Material", name: "material" },
     { label: "Billed", name: "invoiceId", isBoolean: true },
-    { label: "Qty", name: "qty", isNumeric: true, searchable: true },
+    { label: "Qty", name: "qty", isNumeric: true, searchable: true, isSortable: true },
     { label: "Rate", name: "rate", isNumeric: true },
     { label: "Total", name: "total", isNumeric: true },
   ]
@@ -223,6 +223,7 @@ function ViewJobs() {
         actionIcon={<EditIcon />}
         actionProperty={"id"}
         onActionButtonClick={handleActionClick}
+        searchOnInput={true}
         fetchData={fetchData}
       />
 
