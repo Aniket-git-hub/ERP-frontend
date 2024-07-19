@@ -221,7 +221,6 @@ function DataTable({
             columns={columns}
             sortConfig={sortConfig}
             onSort={handleSortClick}
-            actionButton={actionButton} // Pass actionButton here
           />
           <DataTableBody
             filteredData={filteredData}

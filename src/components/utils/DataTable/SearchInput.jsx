@@ -1,10 +1,4 @@
-import {
-    Button,
-    FormControl,
-    Input,
-    InputGroup,
-    InputRightElement,
-} from "@chakra-ui/react";
+import { Button, FormControl, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { FiSearch } from "react-icons/fi";
 
 function SearchInput({ searchTerm, onChange, onSearch }) {
