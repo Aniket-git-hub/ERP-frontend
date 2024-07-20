@@ -9,7 +9,7 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import ExpenseCategoryPage from "../budget/expenseCategoryPage"
 import Department from "../employee/Department"
@@ -56,6 +56,19 @@ function GeneralSettings() {
   const handleSetURLParams = (param) => {
     setSearchParams({ setting: param })
   }
+
+  useEffect(() => {
+    const settingFromParams = searchParams.get("setting");
+    if (settingFromParams) {
+      const matchingItem = settings
+        .flatMap((setting) => setting.items)
+        .find((item) => item.title === settingFromParams)
+
+      if (matchingItem) {
+        setCurrentSettingPage(matchingItem.component)
+      }
+    }
+  }, [searchParams])
 
   return (
     <Flex w={"100%"}>
