@@ -9,21 +9,21 @@ import {
   Spinner,
   Table,
   TableContainer,
-} from "@chakra-ui/react";
-import { Select } from "chakra-react-select";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import useDebounce from '../../hooks/useDebounce';
+} from "@chakra-ui/react"
+import { Select } from "chakra-react-select"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom"
+import useDebounce from "../../hooks/useDebounce"
 import {
   convertTo12HourFormat,
   formatCurrency,
   formatDate,
   getSearchParams,
-} from "../../utils/utils";
-import DataTableBody from "./DataTable/DataTable";
-import PaginationControls from "./DataTable/PaginationControl";
-import SearchInput from "./DataTable/SearchInput";
-import DataTableHeader from "./DataTable/TableHeader";
+} from "../../utils/utils"
+import DataTableBody from "./DataTable/DataTable"
+import PaginationControls from "./DataTable/PaginationControl"
+import SearchInput from "./DataTable/SearchInput"
+import DataTableHeader from "./DataTable/TableHeader"
 
 function DataTable({
   data,
@@ -37,51 +37,46 @@ function DataTable({
   fetchData,
   searchOnInput = false,
 }) {
-  const {
-    totalItems,
-    currentPage,
-    totalPages,
-    hasNextPage,
-    limit,
-  } = paginationData || {};
+  const { totalItems, currentPage, totalPages, hasNextPage, limit } =
+    paginationData || {}
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleChangePageClick = (page) => {
-    changePage(page, limit);
-    setSearchParams({ ...getSearchParams(searchParams), page });
-  };
+    changePage(page, limit)
+    setSearchParams({ ...getSearchParams(searchParams), page })
+  }
 
   const handleChangeLimit = (option) => {
-    changeLimit(currentPage, option.value);
-    setSearchParams({ ...getSearchParams(searchParams), limit: option.value });
-  };
+    changeLimit(currentPage, option.value)
+    setSearchParams({ ...getSearchParams(searchParams), limit: option.value })
+  }
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, flush] = useDebounce(searchTerm);
-  const [filteredData, setFilteredData] = useState(data);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [debouncedSearchTerm, flush] = useDebounce(searchTerm)
+  const [filteredData, setFilteredData] = useState(data)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    setFilteredData(data);
-  }, [data]);
+    setFilteredData(data)
+  }, [data])
 
   useEffect(() => {
     if (searchOnInput) {
-      performSearch(debouncedSearchTerm);
+      performSearch(debouncedSearchTerm)
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm])
 
   const handleSearchInputChange = (e) => {
-    setSearchTerm(e.target.value);
-    setError(null);
-  };
+    setSearchTerm(e.target.value)
+    setError(null)
+  }
 
   const handleSearchButtonClick = () => {
-    flush();
-    performSearch(searchTerm);
-  };
+    flush()
+    performSearch(searchTerm)
+  }
 
   const performSearch = async (term) => {
     if (term) {
@@ -89,35 +84,38 @@ function DataTable({
         columns.some(
           (column) =>
             column.searchable &&
-            item[column.name]?.toString().toLowerCase().includes(term.toLowerCase())
-        )
-      );
+            item[column.name]
+              ?.toString()
+              .toLowerCase()
+              .includes(term.toLowerCase()),
+        ),
+      )
 
       if (filtered.length === 0) {
         if (fetchData) {
-          setIsLoading(true);
+          setIsLoading(true)
           try {
-            const fetchedData = await fetchData(term);
-            setFilteredData(fetchedData);
+            const fetchedData = await fetchData(term)
+            setFilteredData(fetchedData)
             if (fetchedData.length === 0) {
-              setError("No matching records found");
+              setError("No matching records found")
             }
           } catch (error) {
-            setError("Error fetching data");
+            setError("Error fetching data")
           } finally {
-            setIsLoading(false);
+            setIsLoading(false)
           }
         } else {
-          setFilteredData([]);
-          setError("No matching records found");
+          setFilteredData([])
+          setError("No matching records found")
         }
       } else {
-        setFilteredData(filtered);
+        setFilteredData(filtered)
       }
     } else {
-      setFilteredData(data);
+      setFilteredData(data)
     }
-  };
+  }
 
   const limitOptions = [
     { label: "10", value: 10 },
@@ -125,52 +123,52 @@ function DataTable({
     { label: "40", value: 40 },
     { label: "50", value: 50 },
     { label: "100", value: 100 },
-  ];
+  ]
 
   const onActionClick = (property) => {
-    onActionButtonClick(property);
-  };
+    onActionButtonClick(property)
+  }
 
   const getModifiedValue = (item, column) => {
-    let value = item[column.name];
-    if (column.fallBackName) value = value ? value : item[column.fallBackName];
-    if (column.isDate) value = formatDate(value, "dd-mon-yyyy");
-    if (column.isTime) value = convertTo12HourFormat(value);
-    if (column.isBoolean) value = value ? "Yes" : "No";
+    let value = item[column.name]
+    if (column.fallBackName) value = value ? value : item[column.fallBackName]
+    if (column.isDate) value = formatDate(value, "dd-mon-yyyy")
+    if (column.isTime) value = convertTo12HourFormat(value)
+    if (column.isBoolean) value = value ? "Yes" : "No"
     if (column.isCurrency)
-      value = formatCurrency(Math.ceil(value), "en-IN", false, "INR");
-    return value ?? "-";
-  };
+      value = formatCurrency(Math.ceil(value), "en-IN", false, "INR")
+    return value ?? "-"
+  }
 
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" })
 
   const sortData = (data, key, direction) => {
     return data.sort((a, b) => {
-      const aValue = a[key];
-      const bValue = b[key];
+      const aValue = a[key]
+      const bValue = b[key]
 
-      if (typeof aValue === 'number' && typeof bValue === 'number') {
-        return direction === 'asc' ? aValue - bValue : bValue - aValue;
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return direction === "asc" ? aValue - bValue : bValue - aValue
       }
 
-      if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return direction === 'asc'
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return direction === "asc"
           ? aValue.localeCompare(bValue)
-          : bValue.localeCompare(aValue);
+          : bValue.localeCompare(aValue)
       }
 
-      return 0;
-    });
-  };
+      return 0
+    })
+  }
 
   const handleSortClick = (column) => {
-    let direction = 'asc';
-    if (sortConfig.key === column.name && sortConfig.direction === 'asc') {
-      direction = 'desc';
+    let direction = "asc"
+    if (sortConfig.key === column.name && sortConfig.direction === "asc") {
+      direction = "desc"
     }
-    setSortConfig({ key: column.name, direction });
-    setFilteredData(sortData(filteredData, column.name, direction));
-  };
+    setSortConfig({ key: column.name, direction })
+    setFilteredData(sortData(filteredData, column.name, direction))
+  }
 
   return (
     <TableContainer>
@@ -200,11 +198,11 @@ function DataTable({
       {isLoading ? (
         <Box textAlign="center" py={4}>
           <Spinner
-            thickness='4px'
-            speed='0.65s'
-            emptyColor='gray.200'
-            color='blue.500'
-            size='xl'
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
           />
         </Box>
       ) : error ? (
@@ -242,7 +240,7 @@ function DataTable({
         />
       )}
     </TableContainer>
-  );
+  )
 }
 
-export default DataTable;
+export default DataTable

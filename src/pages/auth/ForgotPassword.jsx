@@ -4,19 +4,18 @@ import {
   CardBody,
   Center,
   Container,
-  Heading
+  Heading,
 } from "@chakra-ui/react"
 import FormInput from "../../components/utils/form/FormInput"
 import { useFormValidation } from "../../hooks/useFormValidation"
 
 export default function ForgotPassword() {
-
   const initialState = { email: "singhdharmvir81@gmail.com" }
-  const { values, errors, handleChange, handleSubmit, isSubmitting } = useFormValidation(initialState, (values) => {
-    console.log(values)
-    return { title: "", message: "" }
-  })
-
+  const { values, errors, handleChange, handleSubmit, isSubmitting } =
+    useFormValidation(initialState, (values) => {
+      console.log(values)
+      return { title: "", message: "" }
+    })
 
   return (
     <Container as="section" my="50px" maxW="500px">

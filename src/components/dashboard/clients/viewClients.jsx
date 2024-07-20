@@ -31,7 +31,7 @@ function ViewClients() {
   const columns = [
     { label: "Client Name", name: "name", searchable: true, isSortable: true },
     { label: "Email", name: "email", searchable: true },
-    { label: "Phone", name: "phone", },
+    { label: "Phone", name: "phone" },
     { label: "GSTIN No", name: "gst" },
     { label: "Address", name: "address" },
   ]

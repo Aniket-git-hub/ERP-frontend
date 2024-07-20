@@ -88,7 +88,13 @@ function ViewJobs() {
     { label: "Size", name: "size" },
     { label: "Material", name: "material" },
     { label: "Billed", name: "invoiceId", isBoolean: true },
-    { label: "Qty", name: "qty", isNumeric: true, searchable: true, isSortable: true },
+    {
+      label: "Qty",
+      name: "qty",
+      isNumeric: true,
+      searchable: true,
+      isSortable: true,
+    },
     { label: "Rate", name: "rate", isNumeric: true },
     { label: "Total", name: "total", isNumeric: true },
   ]
@@ -198,7 +204,7 @@ function ViewJobs() {
 
     return optionByOne || optionByTwo || null
   }
-  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
   const fetchData = async (searchTerm) => {
     try {

@@ -58,7 +58,7 @@ function GeneralSettings() {
   }
 
   useEffect(() => {
-    const settingFromParams = searchParams.get("setting");
+    const settingFromParams = searchParams.get("setting")
     if (settingFromParams) {
       const matchingItem = settings
         .flatMap((setting) => setting.items)
